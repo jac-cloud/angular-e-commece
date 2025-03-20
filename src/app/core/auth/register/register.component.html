@@ -6,7 +6,7 @@
 
     <mat-form-field appearance="fill" class="w-full">
       <mat-label>Username</mat-label>
-      <input matInput type="text" name="username" ngModel required class="text-gray-200">
+      <input matInput type="text" name="username" ngModel required autocomplete="username" class="text-gray-200">
       <mat-error *ngIf="registerForm.controls['username']?.invalid && registerForm.controls['username']?.touched">
           Please enter a username.
       </mat-error>
