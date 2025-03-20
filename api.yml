@@ -1,0 +1,901 @@
+openapi: 3.0.0
+info:
+  title: server-angular-jac-server
+  description: ''
+  version: 1.0.0
+servers:
+  - url: http://{{base_url}}
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    basicAuth:
+      type: http
+      scheme: basic
+tags:
+  - name: Auth
+  - name: Categorie
+  - name: Order
+  - name: OrderItem
+  - name: PasswordReset
+  - name: Product
+  - name: User
+paths:
+  /auth/checkJWT:
+    get:
+      tags:
+        - Auth
+      summary: Check JWT Validity
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /auth/renewJWT:
+    get:
+      tags:
+        - Auth
+      summary: Renew JWT
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /auth:
+    post:
+      tags:
+        - Auth
+      summary: Authenticate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example: ''
+      security:
+        - basicAuth: []
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /auth/sociallogin:
+    post:
+      tags:
+        - Auth
+      summary: Authenticate with social login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example: ''
+      security:
+        - basicAuth: []
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /auth/refresh:
+    post:
+      tags:
+        - Auth
+      summary: refresh
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example: ''
+      security:
+        - basicAuth: []
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /auth/register:
+    post:
+      tags:
+        - Auth
+      summary: Register an user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example: ''
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /categories/{id}:
+    get:
+      tags:
+        - Categorie
+      summary: Retrieve categorie
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    put:
+      tags:
+        - Categorie
+      summary: Update categorie
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Horacio.Prosacco81
+                description: Briana_Ondricka94
+                createdBy: 67dc1e22f5dfe5005f6c1659
+                createdAt: '2025-03-19T18:17:38.439Z'
+                updatedAt: '2025-03-20T06:37:48.739Z'
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - Categorie
+      summary: Delete categorie
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /categories:
+    get:
+      tags:
+        - Categorie
+      summary: List categories
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    post:
+      tags:
+        - Categorie
+      summary: Create categorie
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Horacio.Prosacco81
+                description: Briana_Ondricka94
+                createdBy: 67dc1e22f5dfe5005f6c1659
+                createdAt: '2025-03-19T18:17:38.439Z'
+                updatedAt: '2025-03-20T06:37:48.739Z'
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /orders/{id}:
+    get:
+      tags:
+        - Order
+      summary: Retrieve order
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    put:
+      tags:
+        - Order
+      summary: Update order
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                orderNumber: Maybell_Bednar
+                userId: 67dc1e22f5dfe5005f6c165d
+                totalAmount: 65
+                status: completed
+                createdBy: 67dc1e22f5dfe5005f6c165e
+                createdAt: '2025-03-20T00:02:09.549Z'
+                updatedAt: '2025-03-20T06:53:51.295Z'
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - Order
+      summary: Delete order
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /orders:
+    get:
+      tags:
+        - Order
+      summary: List orders
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    post:
+      tags:
+        - Order
+      summary: Create order
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                orderNumber: Maybell_Bednar
+                userId: 67dc1e22f5dfe5005f6c165d
+                totalAmount: 65
+                status: completed
+                createdBy: 67dc1e22f5dfe5005f6c165e
+                createdAt: '2025-03-20T00:02:09.549Z'
+                updatedAt: '2025-03-20T06:53:51.295Z'
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /orderitems/{id}:
+    get:
+      tags:
+        - OrderItem
+      summary: Retrieve orderitem
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    put:
+      tags:
+        - OrderItem
+      summary: Update orderitem
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                orderId: 67dc1e22f5dfe5005f6c165a
+                productId: 67dc1e22f5dfe5005f6c165b
+                quantity: 32
+                price: 70
+                createdBy: 67dc1e22f5dfe5005f6c165c
+                createdAt: '2025-03-20T12:59:10.495Z'
+                updatedAt: '2025-03-19T20:56:31.241Z'
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - OrderItem
+      summary: Delete orderitem
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /orderitems:
+    get:
+      tags:
+        - OrderItem
+      summary: List orderitems
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    post:
+      tags:
+        - OrderItem
+      summary: Create orderitem
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                orderId: 67dc1e22f5dfe5005f6c165a
+                productId: 67dc1e22f5dfe5005f6c165b
+                quantity: 32
+                price: 70
+                createdBy: 67dc1e22f5dfe5005f6c165c
+                createdAt: '2025-03-20T12:59:10.495Z'
+                updatedAt: '2025-03-19T20:56:31.241Z'
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /password-resets/{token}:
+    get:
+      tags:
+        - PasswordReset
+      summary: Verify token
+      parameters:
+        - name: token
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    put:
+      tags:
+        - PasswordReset
+      summary: Submit password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example: ''
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: token
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /password-resets:
+    post:
+      tags:
+        - PasswordReset
+      summary: Send email
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example: ''
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /products/{id}:
+    get:
+      tags:
+        - Product
+      summary: Retrieve product
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    put:
+      tags:
+        - Product
+      summary: Update product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Jimmie.Sipes80
+                description: Tristian_Welch
+                price: 70
+                categoryId: 67dc1e22f5dfe5005f6c165f
+                stock: 80
+                imageUrl: Cali_Baumbach52
+                createdBy: 67dc1e22f5dfe5005f6c1660
+                createdAt: '2025-03-20T04:20:04.144Z'
+                updatedAt: '2025-03-20T04:36:49.098Z'
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - Product
+      summary: Delete product
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /products:
+    get:
+      tags:
+        - Product
+      summary: List products
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    post:
+      tags:
+        - Product
+      summary: Create product
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: Jimmie.Sipes80
+                description: Tristian_Welch
+                price: 70
+                categoryId: 67dc1e22f5dfe5005f6c165f
+                stock: 80
+                imageUrl: Cali_Baumbach52
+                createdBy: 67dc1e22f5dfe5005f6c1660
+                createdAt: '2025-03-20T04:20:04.144Z'
+                updatedAt: '2025-03-20T04:36:49.098Z'
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /users/{id}:
+    get:
+      tags:
+        - User
+      summary: Retrieve user
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    put:
+      tags:
+        - User
+      summary: Update user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: emie.huels
+                password: Augustus_Osinski46
+                role: user
+                isConfirmed: true
+                name: Jailyn_Doyle
+                isEnabled: false
+                lastLogin: '2025-03-20T05:21:52.907Z'
+                preLastLogin: '2025-03-20T00:31:22.646Z'
+                isDeleted: false
+                devices:
+                  - os: Ernesto.Ondricka
+                    token: Clemmie_Daugherty40
+                  - os: Alden20
+                    token: Guiseppe.Stokes
+                createdAt: '2025-03-19T15:16:15.404Z'
+                updatedAt: '2025-03-19T20:43:37.868Z'
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - User
+      summary: Delete user
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /users:
+    get:
+      tags:
+        - User
+      summary: List users
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    post:
+      tags:
+        - User
+      summary: Create user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: emie.huels
+                password: Augustus_Osinski46
+                role: user
+                isConfirmed: true
+                name: Jailyn_Doyle
+                isEnabled: false
+                lastLogin: '2025-03-20T05:21:52.907Z'
+                preLastLogin: '2025-03-20T00:31:22.646Z'
+                isDeleted: false
+                devices:
+                  - os: Ernesto.Ondricka
+                    token: Clemmie_Daugherty40
+                  - os: Alden20
+                    token: Guiseppe.Stokes
+                createdAt: '2025-03-19T15:16:15.404Z'
+                updatedAt: '2025-03-19T20:43:37.868Z'
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /users/me:
+    get:
+      tags:
+        - User
+      summary: Retrieve current user
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+    delete:
+      tags:
+        - User
+      summary: Delete current user
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /users/{id}/password:
+    put:
+      tags:
+        - User
+      summary: Update password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: emie.huels
+                password: Augustus_Osinski46
+                role: user
+                isConfirmed: true
+                name: Jailyn_Doyle
+                isEnabled: false
+                lastLogin: '2025-03-20T05:21:52.907Z'
+                preLastLogin: '2025-03-20T00:31:22.646Z'
+                isDeleted: false
+                devices:
+                  - os: Ernesto.Ondricka
+                    token: Clemmie_Daugherty40
+                  - os: Alden20
+                    token: Guiseppe.Stokes
+                createdAt: '2025-03-19T15:16:15.404Z'
+                updatedAt: '2025-03-19T20:43:37.868Z'
+      security:
+        - basicAuth: []
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /users/{id}/passwordReset:
+    put:
+      tags:
+        - User
+      summary: Reset other users password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: emie.huels
+                password: Augustus_Osinski46
+                role: user
+                isConfirmed: true
+                name: Jailyn_Doyle
+                isEnabled: false
+                lastLogin: '2025-03-20T05:21:52.907Z'
+                preLastLogin: '2025-03-20T00:31:22.646Z'
+                isDeleted: false
+                devices:
+                  - os: Ernesto.Ondricka
+                    token: Clemmie_Daugherty40
+                  - os: Alden20
+                    token: Guiseppe.Stokes
+                createdAt: '2025-03-19T15:16:15.404Z'
+                updatedAt: '2025-03-19T20:43:37.868Z'
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          example: application/json
+        - name: id
+          in: path
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
