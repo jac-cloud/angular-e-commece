@@ -11,7 +11,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class ApiConfiguration {
-  rootUrl: string = 'http://{{base_url}}';
+  rootUrl: string = 'https://server-angular-jac.dev.aws.r-s.cloud/api';
 }
 
 /**
