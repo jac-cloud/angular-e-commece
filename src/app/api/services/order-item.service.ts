@@ -7,20 +7,15 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
+import { BaseService } from '../base-service';
 import { StrictHttpResponse } from '../strict-http-response';
 
-import { orderitemsGet } from '../fn/order-item/orderitems-get';
-import { OrderitemsGet$Params } from '../fn/order-item/orderitems-get';
-import { orderitemsIdDelete } from '../fn/order-item/orderitems-id-delete';
-import { OrderitemsIdDelete$Params } from '../fn/order-item/orderitems-id-delete';
-import { orderitemsIdGet } from '../fn/order-item/orderitems-id-get';
-import { OrderitemsIdGet$Params } from '../fn/order-item/orderitems-id-get';
-import { orderitemsIdPut } from '../fn/order-item/orderitems-id-put';
-import { OrderitemsIdPut$Params } from '../fn/order-item/orderitems-id-put';
-import { orderitemsPost } from '../fn/order-item/orderitems-post';
-import { OrderitemsPost$Params } from '../fn/order-item/orderitems-post';
+import { OrderitemsGet$Params, orderitemsGet } from '../fn/order-item/orderitems-get';
+import { OrderitemsIdDelete$Params, orderitemsIdDelete } from '../fn/order-item/orderitems-id-delete';
+import { OrderitemsIdGet$Params, orderitemsIdGet } from '../fn/order-item/orderitems-id-get';
+import { OrderitemsIdPut$Params, orderitemsIdPut } from '../fn/order-item/orderitems-id-put';
+import { OrderitemsPost$Params, orderitemsPost } from '../fn/order-item/orderitems-post';
 
 @Injectable({ providedIn: 'root' })
 export class OrderItemService extends BaseService {
@@ -56,9 +51,7 @@ export class OrderItemService extends BaseService {
    * This method doesn't expect any request body.
    */
   orderitemsIdGet(params: OrderitemsIdGet$Params, context?: HttpContext): Observable<any> {
-    return this.orderitemsIdGet$Response(params, context).pipe(
-      map((r: StrictHttpResponse<any>): any => r.body)
-    );
+    return this.orderitemsIdGet$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
   }
 
   /** Path part for operation `orderitemsIdPut()` */
@@ -89,9 +82,7 @@ export class OrderItemService extends BaseService {
    * This method sends `application/json` and handles request body of type `application/json`.
    */
   orderitemsIdPut(params: OrderitemsIdPut$Params, context?: HttpContext): Observable<any> {
-    return this.orderitemsIdPut$Response(params, context).pipe(
-      map((r: StrictHttpResponse<any>): any => r.body)
-    );
+    return this.orderitemsIdPut$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
   }
 
   /** Path part for operation `orderitemsIdDelete()` */
@@ -107,7 +98,10 @@ export class OrderItemService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  orderitemsIdDelete$Response(params: OrderitemsIdDelete$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
+  orderitemsIdDelete$Response(
+    params: OrderitemsIdDelete$Params,
+    context?: HttpContext,
+  ): Observable<StrictHttpResponse<any>> {
     return orderitemsIdDelete(this.http, this.rootUrl, params, context);
   }
 
@@ -122,9 +116,7 @@ export class OrderItemService extends BaseService {
    * This method doesn't expect any request body.
    */
   orderitemsIdDelete(params: OrderitemsIdDelete$Params, context?: HttpContext): Observable<any> {
-    return this.orderitemsIdDelete$Response(params, context).pipe(
-      map((r: StrictHttpResponse<any>): any => r.body)
-    );
+    return this.orderitemsIdDelete$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
   }
 
   /** Path part for operation `orderitemsGet()` */
@@ -155,9 +147,7 @@ export class OrderItemService extends BaseService {
    * This method doesn't expect any request body.
    */
   orderitemsGet(params?: OrderitemsGet$Params, context?: HttpContext): Observable<any> {
-    return this.orderitemsGet$Response(params, context).pipe(
-      map((r: StrictHttpResponse<any>): any => r.body)
-    );
+    return this.orderitemsGet$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
   }
 
   /** Path part for operation `orderitemsPost()` */
@@ -188,9 +178,6 @@ export class OrderItemService extends BaseService {
    * This method sends `application/json` and handles request body of type `application/json`.
    */
   orderitemsPost(params?: OrderitemsPost$Params, context?: HttpContext): Observable<any> {
-    return this.orderitemsPost$Response(params, context).pipe(
-      map((r: StrictHttpResponse<any>): any => r.body)
-    );
+    return this.orderitemsPost$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
   }
-
 }

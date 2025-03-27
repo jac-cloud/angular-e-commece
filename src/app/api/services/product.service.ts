@@ -7,20 +7,15 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
+import { BaseService } from '../base-service';
 import { StrictHttpResponse } from '../strict-http-response';
 
-import { productsGet } from '../fn/product/products-get';
-import { ProductsGet$Params } from '../fn/product/products-get';
-import { productsIdDelete } from '../fn/product/products-id-delete';
-import { ProductsIdDelete$Params } from '../fn/product/products-id-delete';
-import { productsIdGet } from '../fn/product/products-id-get';
-import { ProductsIdGet$Params } from '../fn/product/products-id-get';
-import { productsIdPut } from '../fn/product/products-id-put';
-import { ProductsIdPut$Params } from '../fn/product/products-id-put';
-import { productsPost } from '../fn/product/products-post';
-import { ProductsPost$Params } from '../fn/product/products-post';
+import { ProductsGet$Params, productsGet } from '../fn/product/products-get';
+import { ProductsIdDelete$Params, productsIdDelete } from '../fn/product/products-id-delete';
+import { ProductsIdGet$Params, productsIdGet } from '../fn/product/products-id-get';
+import { ProductsIdPut$Params, productsIdPut } from '../fn/product/products-id-put';
+import { ProductsPost$Params, productsPost } from '../fn/product/products-post';
 
 @Injectable({ providedIn: 'root' })
 export class ProductService extends BaseService {
@@ -56,9 +51,7 @@ export class ProductService extends BaseService {
    * This method doesn't expect any request body.
    */
   productsIdGet(params: ProductsIdGet$Params, context?: HttpContext): Observable<any> {
-    return this.productsIdGet$Response(params, context).pipe(
-      map((r: StrictHttpResponse<any>): any => r.body)
-    );
+    return this.productsIdGet$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
   }
 
   /** Path part for operation `productsIdPut()` */
@@ -89,9 +82,7 @@ export class ProductService extends BaseService {
    * This method sends `application/json` and handles request body of type `application/json`.
    */
   productsIdPut(params: ProductsIdPut$Params, context?: HttpContext): Observable<any> {
-    return this.productsIdPut$Response(params, context).pipe(
-      map((r: StrictHttpResponse<any>): any => r.body)
-    );
+    return this.productsIdPut$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
   }
 
   /** Path part for operation `productsIdDelete()` */
@@ -107,7 +98,10 @@ export class ProductService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  productsIdDelete$Response(params: ProductsIdDelete$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
+  productsIdDelete$Response(
+    params: ProductsIdDelete$Params,
+    context?: HttpContext,
+  ): Observable<StrictHttpResponse<any>> {
     return productsIdDelete(this.http, this.rootUrl, params, context);
   }
 
@@ -122,9 +116,7 @@ export class ProductService extends BaseService {
    * This method doesn't expect any request body.
    */
   productsIdDelete(params: ProductsIdDelete$Params, context?: HttpContext): Observable<any> {
-    return this.productsIdDelete$Response(params, context).pipe(
-      map((r: StrictHttpResponse<any>): any => r.body)
-    );
+    return this.productsIdDelete$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
   }
 
   /** Path part for operation `productsGet()` */
@@ -155,9 +147,7 @@ export class ProductService extends BaseService {
    * This method doesn't expect any request body.
    */
   productsGet(params?: ProductsGet$Params, context?: HttpContext): Observable<any> {
-    return this.productsGet$Response(params, context).pipe(
-      map((r: StrictHttpResponse<any>): any => r.body)
-    );
+    return this.productsGet$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
   }
 
   /** Path part for operation `productsPost()` */
@@ -188,9 +178,6 @@ export class ProductService extends BaseService {
    * This method sends `application/json` and handles request body of type `application/json`.
    */
   productsPost(params?: ProductsPost$Params, context?: HttpContext): Observable<any> {
-    return this.productsPost$Response(params, context).pipe(
-      map((r: StrictHttpResponse<any>): any => r.body)
-    );
+    return this.productsPost$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
   }
-
 }

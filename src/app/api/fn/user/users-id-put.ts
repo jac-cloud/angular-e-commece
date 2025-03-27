@@ -5,18 +5,21 @@
 import { HttpClient, HttpContext, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
-
+import { StrictHttpResponse } from '../../strict-http-response';
 
 export interface UsersIdPut$Params {
   'Content-Type'?: string;
   id: string;
-      body?: {
-}
+  body?: {};
 }
 
-export function usersIdPut(http: HttpClient, rootUrl: string, params: UsersIdPut$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
+export function usersIdPut(
+  http: HttpClient,
+  rootUrl: string,
+  params: UsersIdPut$Params,
+  context?: HttpContext,
+): Observable<StrictHttpResponse<any>> {
   const rb = new RequestBuilder(rootUrl, usersIdPut.PATH, 'put');
   if (params) {
     rb.header('Content-Type', params['Content-Type'], {});
@@ -24,13 +27,11 @@ export function usersIdPut(http: HttpClient, rootUrl: string, params: UsersIdPut
     rb.body(params.body, 'application/json');
   }
 
-  return http.request(
-    rb.build({ responseType: 'json', accept: 'application/json', context })
-  ).pipe(
+  return http.request(rb.build({ responseType: 'json', accept: 'application/json', context })).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
       return r as StrictHttpResponse<any>;
-    })
+    }),
   );
 }
 

@@ -11,23 +11,18 @@ import { Router, RouterLink } from '@angular/router';
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [
-    FormsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    RouterLink,
-    NgIf,
-    HttpClientModule
-  ],
+  imports: [FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, RouterLink, NgIf, HttpClientModule],
   providers: [HttpClient],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.scss'
+  styleUrl: './register.component.scss',
 })
 export class RegisterComponent {
   errorMessage: string | null = null;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+  ) {}
 
   onSubmit(form: NgForm) {
     this.errorMessage = null; // Reset error message
@@ -38,23 +33,25 @@ export class RegisterComponent {
       return;
     }
 
-    this.authService.authRegisterPost({
-      body: {
-        name: form.value.username,
-        email: form.value.email,
-        password: form.value.password
-      },
-    }).subscribe(
-      (response) => {
-        console.log('Registration successful', response);
+    this.authService
+      .authRegisterPost({
+        body: {
+          name: form.value.username,
+          email: form.value.email,
+          password: form.value.password,
+        },
+      })
+      .subscribe(
+        response => {
+          console.log('Registration successful', response);
 
-        // Go to login page
-        this.router.navigate(['/login']);
-      },
-      (error) => {
-        console.error('Registration failed', error);
-        this.errorMessage = error.error.message || 'Registration failed. Please try again.';
-      }
-    );
+          // Go to login page
+          this.router.navigate(['/login']);
+        },
+        error => {
+          console.error('Registration failed', error);
+          this.errorMessage = error.error.message || 'Registration failed. Please try again.';
+        },
+      );
   }
 }

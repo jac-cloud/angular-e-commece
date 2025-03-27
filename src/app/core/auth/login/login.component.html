@@ -1,20 +1,32 @@
 <div class="min-h-screen flex items-center justify-center">
-  <form class="max-w-md w-full p-8 bg-[#2c2c2c] text-gray-200 shadow-lg rounded-lg space-y-6" (ngSubmit)="onSubmit(loginForm)" #loginForm="ngForm">
+  <form
+    class="max-w-md w-full p-8 bg-[#2c2c2c] text-gray-200 shadow-lg rounded-lg space-y-6"
+    (ngSubmit)="onSubmit(loginForm)"
+    #loginForm="ngForm"
+  >
     <h1 class="text-3xl font-bold text-center">Login</h1>
 
     <mat-form-field appearance="fill" class="w-full">
       <mat-label>Email</mat-label>
-      <input matInput type="email" name="email" ngModel required autocomplete="email" class="text-gray-200">
+      <input matInput type="email" name="email" ngModel required autocomplete="email" class="text-gray-200" />
       <mat-error *ngIf="loginForm.controls['email']?.invalid && loginForm.controls['email']?.touched">
-          Please enter a valid email.
+        Please enter a valid email.
       </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="w-full">
       <mat-label>Password</mat-label>
-      <input matInput type="password" name="password" ngModel required autocomplete="current-password" class="text-gray-200">
+      <input
+        matInput
+        type="password"
+        name="password"
+        ngModel
+        required
+        autocomplete="current-password"
+        class="text-gray-200"
+      />
       <mat-error *ngIf="loginForm.controls['password']?.invalid && loginForm.controls['password']?.touched">
-          Password is required.
+        Password is required.
       </mat-error>
     </mat-form-field>
 
@@ -22,8 +34,13 @@
       {{ errorMessage }}
     </div>
 
-    <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid"
-      class="w-full py-2 mt-4 bg-blue-600 hover:bg-blue-700 transition-colors disabled:opacity-50">
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      [disabled]="loginForm.invalid"
+      class="w-full py-2 mt-4 bg-blue-600 hover:bg-blue-700 transition-colors disabled:opacity-50"
+    >
       Login
     </button>
 

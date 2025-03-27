@@ -5,25 +5,26 @@
 import { HttpClient, HttpContext, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
+import { StrictHttpResponse } from '../../strict-http-response';
 
+export interface AuthCheckJwtGet$Params {}
 
-export interface AuthCheckJwtGet$Params {
-}
-
-export function authCheckJwtGet(http: HttpClient, rootUrl: string, params?: AuthCheckJwtGet$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
+export function authCheckJwtGet(
+  http: HttpClient,
+  rootUrl: string,
+  params?: AuthCheckJwtGet$Params,
+  context?: HttpContext,
+): Observable<StrictHttpResponse<any>> {
   const rb = new RequestBuilder(rootUrl, authCheckJwtGet.PATH, 'get');
   if (params) {
   }
 
-  return http.request(
-    rb.build({ responseType: 'json', accept: 'application/json', context })
-  ).pipe(
+  return http.request(rb.build({ responseType: 'json', accept: 'application/json', context })).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
       return r as StrictHttpResponse<any>;
-    })
+    }),
   );
 }
 

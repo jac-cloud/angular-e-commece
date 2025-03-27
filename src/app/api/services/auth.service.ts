@@ -7,22 +7,16 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
+import { BaseService } from '../base-service';
 import { StrictHttpResponse } from '../strict-http-response';
 
-import { authCheckJwtGet } from '../fn/auth/auth-check-jwt-get';
-import { AuthCheckJwtGet$Params } from '../fn/auth/auth-check-jwt-get';
-import { authPost } from '../fn/auth/auth-post';
-import { AuthPost$Params } from '../fn/auth/auth-post';
-import { authRefreshPost } from '../fn/auth/auth-refresh-post';
-import { AuthRefreshPost$Params } from '../fn/auth/auth-refresh-post';
-import { authRegisterPost } from '../fn/auth/auth-register-post';
-import { AuthRegisterPost$Params } from '../fn/auth/auth-register-post';
-import { authRenewJwtGet } from '../fn/auth/auth-renew-jwt-get';
-import { AuthRenewJwtGet$Params } from '../fn/auth/auth-renew-jwt-get';
-import { authSocialloginPost } from '../fn/auth/auth-sociallogin-post';
-import { AuthSocialloginPost$Params } from '../fn/auth/auth-sociallogin-post';
+import { AuthCheckJwtGet$Params, authCheckJwtGet } from '../fn/auth/auth-check-jwt-get';
+import { AuthPost$Params, authPost } from '../fn/auth/auth-post';
+import { AuthRefreshPost$Params, authRefreshPost } from '../fn/auth/auth-refresh-post';
+import { AuthRegisterPost$Params, authRegisterPost } from '../fn/auth/auth-register-post';
+import { AuthRenewJwtGet$Params, authRenewJwtGet } from '../fn/auth/auth-renew-jwt-get';
+import { AuthSocialloginPost$Params, authSocialloginPost } from '../fn/auth/auth-sociallogin-post';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService extends BaseService {
@@ -43,7 +37,10 @@ export class AuthService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  authCheckJwtGet$Response(params?: AuthCheckJwtGet$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
+  authCheckJwtGet$Response(
+    params?: AuthCheckJwtGet$Params,
+    context?: HttpContext,
+  ): Observable<StrictHttpResponse<any>> {
     return authCheckJwtGet(this.http, this.rootUrl, params, context);
   }
 
@@ -58,9 +55,7 @@ export class AuthService extends BaseService {
    * This method doesn't expect any request body.
    */
   authCheckJwtGet(params?: AuthCheckJwtGet$Params, context?: HttpContext): Observable<any> {
-    return this.authCheckJwtGet$Response(params, context).pipe(
-      map((r: StrictHttpResponse<any>): any => r.body)
-    );
+    return this.authCheckJwtGet$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
   }
 
   /** Path part for operation `authRenewJwtGet()` */
@@ -76,7 +71,10 @@ export class AuthService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  authRenewJwtGet$Response(params?: AuthRenewJwtGet$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
+  authRenewJwtGet$Response(
+    params?: AuthRenewJwtGet$Params,
+    context?: HttpContext,
+  ): Observable<StrictHttpResponse<any>> {
     return authRenewJwtGet(this.http, this.rootUrl, params, context);
   }
 
@@ -91,9 +89,7 @@ export class AuthService extends BaseService {
    * This method doesn't expect any request body.
    */
   authRenewJwtGet(params?: AuthRenewJwtGet$Params, context?: HttpContext): Observable<any> {
-    return this.authRenewJwtGet$Response(params, context).pipe(
-      map((r: StrictHttpResponse<any>): any => r.body)
-    );
+    return this.authRenewJwtGet$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
   }
 
   /** Path part for operation `authPost()` */
@@ -124,9 +120,7 @@ export class AuthService extends BaseService {
    * This method sends `application/json` and handles request body of type `application/json`.
    */
   authPost(params?: AuthPost$Params, context?: HttpContext): Observable<any> {
-    return this.authPost$Response(params, context).pipe(
-      map((r: StrictHttpResponse<any>): any => r.body)
-    );
+    return this.authPost$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
   }
 
   /** Path part for operation `authSocialloginPost()` */
@@ -142,7 +136,10 @@ export class AuthService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  authSocialloginPost$Response(params?: AuthSocialloginPost$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
+  authSocialloginPost$Response(
+    params?: AuthSocialloginPost$Params,
+    context?: HttpContext,
+  ): Observable<StrictHttpResponse<any>> {
     return authSocialloginPost(this.http, this.rootUrl, params, context);
   }
 
@@ -157,9 +154,7 @@ export class AuthService extends BaseService {
    * This method sends `application/json` and handles request body of type `application/json`.
    */
   authSocialloginPost(params?: AuthSocialloginPost$Params, context?: HttpContext): Observable<any> {
-    return this.authSocialloginPost$Response(params, context).pipe(
-      map((r: StrictHttpResponse<any>): any => r.body)
-    );
+    return this.authSocialloginPost$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
   }
 
   /** Path part for operation `authRefreshPost()` */
@@ -175,7 +170,10 @@ export class AuthService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  authRefreshPost$Response(params?: AuthRefreshPost$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
+  authRefreshPost$Response(
+    params?: AuthRefreshPost$Params,
+    context?: HttpContext,
+  ): Observable<StrictHttpResponse<any>> {
     return authRefreshPost(this.http, this.rootUrl, params, context);
   }
 
@@ -190,9 +188,7 @@ export class AuthService extends BaseService {
    * This method sends `application/json` and handles request body of type `application/json`.
    */
   authRefreshPost(params?: AuthRefreshPost$Params, context?: HttpContext): Observable<any> {
-    return this.authRefreshPost$Response(params, context).pipe(
-      map((r: StrictHttpResponse<any>): any => r.body)
-    );
+    return this.authRefreshPost$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
   }
 
   /** Path part for operation `authRegisterPost()` */
@@ -208,7 +204,10 @@ export class AuthService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  authRegisterPost$Response(params?: AuthRegisterPost$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
+  authRegisterPost$Response(
+    params?: AuthRegisterPost$Params,
+    context?: HttpContext,
+  ): Observable<StrictHttpResponse<any>> {
     return authRegisterPost(this.http, this.rootUrl, params, context);
   }
 
@@ -223,9 +222,6 @@ export class AuthService extends BaseService {
    * This method sends `application/json` and handles request body of type `application/json`.
    */
   authRegisterPost(params?: AuthRegisterPost$Params, context?: HttpContext): Observable<any> {
-    return this.authRegisterPost$Response(params, context).pipe(
-      map((r: StrictHttpResponse<any>): any => r.body)
-    );
+    return this.authRegisterPost$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
   }
-
 }

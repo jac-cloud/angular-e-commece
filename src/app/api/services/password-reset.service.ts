@@ -7,16 +7,13 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
+import { BaseService } from '../base-service';
 import { StrictHttpResponse } from '../strict-http-response';
 
-import { passwordResetsPost } from '../fn/password-reset/password-resets-post';
-import { PasswordResetsPost$Params } from '../fn/password-reset/password-resets-post';
-import { passwordResetsTokenGet } from '../fn/password-reset/password-resets-token-get';
-import { PasswordResetsTokenGet$Params } from '../fn/password-reset/password-resets-token-get';
-import { passwordResetsTokenPut } from '../fn/password-reset/password-resets-token-put';
-import { PasswordResetsTokenPut$Params } from '../fn/password-reset/password-resets-token-put';
+import { PasswordResetsPost$Params, passwordResetsPost } from '../fn/password-reset/password-resets-post';
+import { PasswordResetsTokenGet$Params, passwordResetsTokenGet } from '../fn/password-reset/password-resets-token-get';
+import { PasswordResetsTokenPut$Params, passwordResetsTokenPut } from '../fn/password-reset/password-resets-token-put';
 
 @Injectable({ providedIn: 'root' })
 export class PasswordResetService extends BaseService {
@@ -37,7 +34,10 @@ export class PasswordResetService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  passwordResetsTokenGet$Response(params: PasswordResetsTokenGet$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
+  passwordResetsTokenGet$Response(
+    params: PasswordResetsTokenGet$Params,
+    context?: HttpContext,
+  ): Observable<StrictHttpResponse<any>> {
     return passwordResetsTokenGet(this.http, this.rootUrl, params, context);
   }
 
@@ -52,9 +52,7 @@ export class PasswordResetService extends BaseService {
    * This method doesn't expect any request body.
    */
   passwordResetsTokenGet(params: PasswordResetsTokenGet$Params, context?: HttpContext): Observable<any> {
-    return this.passwordResetsTokenGet$Response(params, context).pipe(
-      map((r: StrictHttpResponse<any>): any => r.body)
-    );
+    return this.passwordResetsTokenGet$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
   }
 
   /** Path part for operation `passwordResetsTokenPut()` */
@@ -70,7 +68,10 @@ export class PasswordResetService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  passwordResetsTokenPut$Response(params: PasswordResetsTokenPut$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
+  passwordResetsTokenPut$Response(
+    params: PasswordResetsTokenPut$Params,
+    context?: HttpContext,
+  ): Observable<StrictHttpResponse<any>> {
     return passwordResetsTokenPut(this.http, this.rootUrl, params, context);
   }
 
@@ -85,9 +86,7 @@ export class PasswordResetService extends BaseService {
    * This method sends `application/json` and handles request body of type `application/json`.
    */
   passwordResetsTokenPut(params: PasswordResetsTokenPut$Params, context?: HttpContext): Observable<any> {
-    return this.passwordResetsTokenPut$Response(params, context).pipe(
-      map((r: StrictHttpResponse<any>): any => r.body)
-    );
+    return this.passwordResetsTokenPut$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
   }
 
   /** Path part for operation `passwordResetsPost()` */
@@ -103,7 +102,10 @@ export class PasswordResetService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  passwordResetsPost$Response(params?: PasswordResetsPost$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
+  passwordResetsPost$Response(
+    params?: PasswordResetsPost$Params,
+    context?: HttpContext,
+  ): Observable<StrictHttpResponse<any>> {
     return passwordResetsPost(this.http, this.rootUrl, params, context);
   }
 
@@ -118,9 +120,6 @@ export class PasswordResetService extends BaseService {
    * This method sends `application/json` and handles request body of type `application/json`.
    */
   passwordResetsPost(params?: PasswordResetsPost$Params, context?: HttpContext): Observable<any> {
-    return this.passwordResetsPost$Response(params, context).pipe(
-      map((r: StrictHttpResponse<any>): any => r.body)
-    );
+    return this.passwordResetsPost$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
   }
-
 }

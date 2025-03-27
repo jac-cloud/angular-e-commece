@@ -7,28 +7,19 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
+import { BaseService } from '../base-service';
 import { StrictHttpResponse } from '../strict-http-response';
 
-import { usersGet } from '../fn/user/users-get';
-import { UsersGet$Params } from '../fn/user/users-get';
-import { usersIdDelete } from '../fn/user/users-id-delete';
-import { UsersIdDelete$Params } from '../fn/user/users-id-delete';
-import { usersIdGet } from '../fn/user/users-id-get';
-import { UsersIdGet$Params } from '../fn/user/users-id-get';
-import { usersIdPasswordPut } from '../fn/user/users-id-password-put';
-import { UsersIdPasswordPut$Params } from '../fn/user/users-id-password-put';
-import { usersIdPasswordResetPut } from '../fn/user/users-id-password-reset-put';
-import { UsersIdPasswordResetPut$Params } from '../fn/user/users-id-password-reset-put';
-import { usersIdPut } from '../fn/user/users-id-put';
-import { UsersIdPut$Params } from '../fn/user/users-id-put';
-import { usersMeDelete } from '../fn/user/users-me-delete';
-import { UsersMeDelete$Params } from '../fn/user/users-me-delete';
-import { usersMeGet } from '../fn/user/users-me-get';
-import { UsersMeGet$Params } from '../fn/user/users-me-get';
-import { usersPost } from '../fn/user/users-post';
-import { UsersPost$Params } from '../fn/user/users-post';
+import { UsersGet$Params, usersGet } from '../fn/user/users-get';
+import { UsersIdDelete$Params, usersIdDelete } from '../fn/user/users-id-delete';
+import { UsersIdGet$Params, usersIdGet } from '../fn/user/users-id-get';
+import { UsersIdPasswordPut$Params, usersIdPasswordPut } from '../fn/user/users-id-password-put';
+import { UsersIdPasswordResetPut$Params, usersIdPasswordResetPut } from '../fn/user/users-id-password-reset-put';
+import { UsersIdPut$Params, usersIdPut } from '../fn/user/users-id-put';
+import { UsersMeDelete$Params, usersMeDelete } from '../fn/user/users-me-delete';
+import { UsersMeGet$Params, usersMeGet } from '../fn/user/users-me-get';
+import { UsersPost$Params, usersPost } from '../fn/user/users-post';
 
 @Injectable({ providedIn: 'root' })
 export class UserService extends BaseService {
@@ -64,9 +55,7 @@ export class UserService extends BaseService {
    * This method doesn't expect any request body.
    */
   usersIdGet(params: UsersIdGet$Params, context?: HttpContext): Observable<any> {
-    return this.usersIdGet$Response(params, context).pipe(
-      map((r: StrictHttpResponse<any>): any => r.body)
-    );
+    return this.usersIdGet$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
   }
 
   /** Path part for operation `usersIdPut()` */
@@ -97,9 +86,7 @@ export class UserService extends BaseService {
    * This method sends `application/json` and handles request body of type `application/json`.
    */
   usersIdPut(params: UsersIdPut$Params, context?: HttpContext): Observable<any> {
-    return this.usersIdPut$Response(params, context).pipe(
-      map((r: StrictHttpResponse<any>): any => r.body)
-    );
+    return this.usersIdPut$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
   }
 
   /** Path part for operation `usersIdDelete()` */
@@ -130,9 +117,7 @@ export class UserService extends BaseService {
    * This method doesn't expect any request body.
    */
   usersIdDelete(params: UsersIdDelete$Params, context?: HttpContext): Observable<any> {
-    return this.usersIdDelete$Response(params, context).pipe(
-      map((r: StrictHttpResponse<any>): any => r.body)
-    );
+    return this.usersIdDelete$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
   }
 
   /** Path part for operation `usersGet()` */
@@ -163,9 +148,7 @@ export class UserService extends BaseService {
    * This method doesn't expect any request body.
    */
   usersGet(params?: UsersGet$Params, context?: HttpContext): Observable<any> {
-    return this.usersGet$Response(params, context).pipe(
-      map((r: StrictHttpResponse<any>): any => r.body)
-    );
+    return this.usersGet$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
   }
 
   /** Path part for operation `usersPost()` */
@@ -196,9 +179,7 @@ export class UserService extends BaseService {
    * This method sends `application/json` and handles request body of type `application/json`.
    */
   usersPost(params?: UsersPost$Params, context?: HttpContext): Observable<any> {
-    return this.usersPost$Response(params, context).pipe(
-      map((r: StrictHttpResponse<any>): any => r.body)
-    );
+    return this.usersPost$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
   }
 
   /** Path part for operation `usersMeGet()` */
@@ -229,9 +210,7 @@ export class UserService extends BaseService {
    * This method doesn't expect any request body.
    */
   usersMeGet(params?: UsersMeGet$Params, context?: HttpContext): Observable<any> {
-    return this.usersMeGet$Response(params, context).pipe(
-      map((r: StrictHttpResponse<any>): any => r.body)
-    );
+    return this.usersMeGet$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
   }
 
   /** Path part for operation `usersMeDelete()` */
@@ -262,9 +241,7 @@ export class UserService extends BaseService {
    * This method doesn't expect any request body.
    */
   usersMeDelete(params?: UsersMeDelete$Params, context?: HttpContext): Observable<any> {
-    return this.usersMeDelete$Response(params, context).pipe(
-      map((r: StrictHttpResponse<any>): any => r.body)
-    );
+    return this.usersMeDelete$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
   }
 
   /** Path part for operation `usersIdPasswordPut()` */
@@ -280,7 +257,10 @@ export class UserService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  usersIdPasswordPut$Response(params: UsersIdPasswordPut$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
+  usersIdPasswordPut$Response(
+    params: UsersIdPasswordPut$Params,
+    context?: HttpContext,
+  ): Observable<StrictHttpResponse<any>> {
     return usersIdPasswordPut(this.http, this.rootUrl, params, context);
   }
 
@@ -295,9 +275,7 @@ export class UserService extends BaseService {
    * This method sends `application/json` and handles request body of type `application/json`.
    */
   usersIdPasswordPut(params: UsersIdPasswordPut$Params, context?: HttpContext): Observable<any> {
-    return this.usersIdPasswordPut$Response(params, context).pipe(
-      map((r: StrictHttpResponse<any>): any => r.body)
-    );
+    return this.usersIdPasswordPut$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
   }
 
   /** Path part for operation `usersIdPasswordResetPut()` */
@@ -313,7 +291,10 @@ export class UserService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  usersIdPasswordResetPut$Response(params: UsersIdPasswordResetPut$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
+  usersIdPasswordResetPut$Response(
+    params: UsersIdPasswordResetPut$Params,
+    context?: HttpContext,
+  ): Observable<StrictHttpResponse<any>> {
     return usersIdPasswordResetPut(this.http, this.rootUrl, params, context);
   }
 
@@ -329,8 +310,7 @@ export class UserService extends BaseService {
    */
   usersIdPasswordResetPut(params: UsersIdPasswordResetPut$Params, context?: HttpContext): Observable<any> {
     return this.usersIdPasswordResetPut$Response(params, context).pipe(
-      map((r: StrictHttpResponse<any>): any => r.body)
+      map((r: StrictHttpResponse<any>): any => r.body),
     );
   }
-
 }
