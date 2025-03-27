@@ -1,4 +1,5 @@
 import { AuthService } from '@/api/services';
+import { TokenService } from '@/core/services/token.service';
 import { NgIf } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
@@ -19,7 +20,7 @@ import { RouterLink } from '@angular/router';
 export class LoginComponent {
   errorMessage: string | null = null;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private tokenService: TokenService) {}
 
   onSubmit(form: NgForm) {
     this.errorMessage = null; // Reset error message
@@ -35,8 +36,7 @@ export class LoginComponent {
       .subscribe(
         response => {
           console.log('Login successful', response);
-          // Save to loczalstorage response.token
-          localStorage.setItem('token', response.token);
+          this.tokenService.setToken(response.token);
         },
         error => {
           console.error('Login failed', error);
