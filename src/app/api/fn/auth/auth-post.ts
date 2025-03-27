@@ -11,15 +11,17 @@ import { RequestBuilder } from '../../request-builder';
 
 export interface AuthPost$Params {
   'Content-Type'?: string;
-      body?: {
-}
+  header: {
+    Authorization: string;
+  };
 }
 
 export function authPost(http: HttpClient, rootUrl: string, params?: AuthPost$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
   const rb = new RequestBuilder(rootUrl, authPost.PATH, 'post');
   if (params) {
     rb.header('Content-Type', params['Content-Type'], {});
-    rb.body(params.body, 'application/json');
+    rb.header('Authorization', params.header.Authorization, {});
+    rb.body({}, 'application/json');
   }
 
   return http.request(

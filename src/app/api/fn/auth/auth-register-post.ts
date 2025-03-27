@@ -12,13 +12,17 @@ import { RequestBuilder } from '../../request-builder';
 export interface AuthRegisterPost$Params {
   'Content-Type'?: string;
       body?: {
-}
+        name: string;
+        email: string;
+        password: string;
+    };
 }
 
 export function authRegisterPost(http: HttpClient, rootUrl: string, params?: AuthRegisterPost$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
   const rb = new RequestBuilder(rootUrl, authRegisterPost.PATH, 'post');
   if (params) {
-    rb.header('Content-Type', params['Content-Type'], {});
+    rb.header('Content-Type', params['Content-Type']);
+    rb.header('Authorization', 'Bearer 2dabee31384bcc47c30b772f6fa69587c0039ffeca28f1d92578b04ac207220423ca2c615967ec9c0720153d0a3f6700a798b6c620016f35f96e8f3ba1160533');
     rb.body(params.body, 'application/json');
   }
 
