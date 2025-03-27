@@ -1,12 +1,12 @@
 import { AuthService } from '@/api/services';
 import { NgIf } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Component, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -25,18 +25,18 @@ import { RouterLink } from '@angular/router';
   styleUrl: './register.component.scss'
 })
 export class RegisterComponent {
-  constructor(private authService: AuthService) {
-  }
+  errorMessage: string | null = null;
+
+  constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit(form: NgForm) {
-    console.log('Form submitted', form);
+    this.errorMessage = null; // Reset error message
+
     if (form.value.password !== form.value.confirmPassword) {
-      form.controls['confirmPassword'].setErrors({ 'incorrect': true });
-      console.log('Passwords do not match');
+      this.errorMessage = 'Passwords do not match.';
+      form.controls['confirmPassword'].setErrors({ incorrect: true });
       return;
     }
-
-    console.log('Form submitted', form.value);
 
     this.authService.authRegisterPost({
       body: {
@@ -47,6 +47,13 @@ export class RegisterComponent {
     }).subscribe(
       (response) => {
         console.log('Registration successful', response);
+
+        // Go to login page
+        this.router.navigate(['/login']);
+      },
+      (error) => {
+        console.error('Registration failed', error);
+        this.errorMessage = error.error.message || 'Registration failed. Please try again.';
       }
     );
   }

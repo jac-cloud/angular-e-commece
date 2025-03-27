@@ -25,22 +25,28 @@ import { AuthService } from '@/api/services';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
+  errorMessage: string | null = null;
+
   constructor(private authService: AuthService) {}
 
   onSubmit(form: NgForm) {
-    // Implement form submission logic here
+    this.errorMessage = null; // Reset error message
     console.log('Form submitted');
 
     this.authService.authPost({
       header: {
         // BasicAuth
         Authorization: 'Basic ' + btoa(form.value.email + ':' + form.value.password)
-            }
-          }).subscribe(
-            (response) => {
+      }
+    }).subscribe(
+      (response) => {
         console.log('Login successful', response);
-        // Save to localstorage response.token
+        // Save to loczalstorage response.token
         localStorage.setItem('token', response.token);
+      },
+      (error) => {
+        console.error('Login failed', error);
+        this.errorMessage = 'Invalid email or password. Please try again.';
       }
     );
   }

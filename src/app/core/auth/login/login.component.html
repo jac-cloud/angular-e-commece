@@ -18,6 +18,10 @@
       </mat-error>
     </mat-form-field>
 
+    <div *ngIf="errorMessage" class="text-red-500 text-center mb-4">
+      {{ errorMessage }}
+    </div>
+
     <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid"
       class="w-full py-2 mt-4 bg-blue-600 hover:bg-blue-700 transition-colors disabled:opacity-50">
       Login
