@@ -1,0 +1,32 @@
+<mat-sidenav-container class="sidebar-container">
+  <mat-sidenav mode="side" opened class="sidebar">
+    <mat-nav-list>
+      <span mat-list-item class="title">
+        <span class="brand-name">eCommerce</span>
+      </span>
+
+      <a mat-list-item routerLink="/app/dashboard" routerLinkActive="active-link">
+        <mat-icon>dashboard</mat-icon>
+        Dashboard
+      </a>
+      <a mat-list-item routerLink="/app/products" routerLinkActive="active-link">
+        <mat-icon>store</mat-icon>
+        Products
+      </a>
+      <a mat-list-item routerLink="/app/orders" routerLinkActive="active-link">
+        <mat-icon>shopping_cart</mat-icon>
+        Orders
+      </a>
+    </mat-nav-list>
+
+    <!-- Logout button at the bottom -->
+    <div class="logout-button">
+      <button mat-raised-button color="warn" (click)="logout()">Logout</button>
+    </div>
+  </mat-sidenav>
+
+  <!-- Main content area (can be used for the rest of the page) -->
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>
