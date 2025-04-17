@@ -13,7 +13,6 @@ import { RouterLink } from '@angular/router';
   selector: 'app-login',
   standalone: true,
   imports: [FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, RouterLink, NgIf, HttpClientModule],
-  providers: [HttpClient],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
 })
@@ -33,15 +32,15 @@ export class LoginComponent {
           Authorization: 'Basic ' + btoa(form.value.email + ':' + form.value.password),
         },
       })
-      .subscribe(
-        response => {
+      .subscribe({
+        next: response => {
           console.log('Login successful', response);
           this.tokenService.setToken(response.token);
         },
-        error => {
+        error: error => {
           console.error('Login failed', error);
           this.errorMessage = 'Invalid email or password. Please try again.';
         },
-      );
+      });
   }
 }
