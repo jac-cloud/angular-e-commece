@@ -10,7 +10,14 @@ import { StrictHttpResponse } from '../../strict-http-response';
 
 export interface ProductsPost$Params {
   'Content-Type'?: string;
-  body?: {};
+  body?: {
+    name?: string;
+    description?: string;
+    price?: number;
+    categoryId?: string;
+    stock?: number;
+    imageUrl?: string;
+  };
 }
 
 export function productsPost(
