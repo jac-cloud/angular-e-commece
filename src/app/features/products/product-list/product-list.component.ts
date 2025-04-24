@@ -1,11 +1,13 @@
 import { ProductService } from '@/api/services';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ProductCreateDialogComponent } from '../product-create-dialog/product-create-dialog.component';
@@ -21,6 +23,8 @@ import { ProductUpdateDialogComponent } from '../product-update-dialog/product-u
     MatIconModule,
     MatCardModule,
     MatTooltipModule,
+    MatPaginatorModule,
+    MatSortModule,
     ProductDeleteDialogComponent,
     ProductUpdateDialogComponent, // add update dialog
   ],
@@ -30,6 +34,14 @@ import { ProductUpdateDialogComponent } from '../product-update-dialog/product-u
 export class ProductListComponent implements OnInit {
   displayedColumns: string[] = ['name', 'description', 'price', 'category', 'stock', 'imageUrl', 'actions'];
   dataSource = new MatTableDataSource<any>([]);
+  totalProducts = 10000;
+  pageSize = 5;
+  pageIndex = 0;
+  sortActive = 'createdAt';
+  sortDirection: 'asc' | 'desc' = 'desc';
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     private productService: ProductService,
@@ -40,16 +52,40 @@ export class ProductListComponent implements OnInit {
     this.getProducts();
   }
 
-  // Fetch products from the service
+  ngAfterViewInit(): void {
+    this.dataSource.sort = this.sort;
+    this.paginator.page.subscribe(() => this.onPaginateChange());
+    this.sort.sortChange.subscribe(() => this.onSortChange());
+  }
+
   getProducts(): void {
-    this.productService.productsGet().subscribe({
-      next: data => {
-        this.dataSource.data = data; // Assign products to the dataSource
-      },
-      error: error => {
-        console.error('Error fetching products:', error);
-      },
-    });
+    const sort = this.sortActive ? `${this.sortDirection === 'desc' ? '-' : ''}${this.sortActive}` : undefined;
+    this.productService
+      .productsGet({
+        page: this.pageIndex + 1,
+        limit: this.pageSize,
+        sort,
+      })
+      .subscribe({
+        next: (data: any) => {
+          this.dataSource.data = data;
+        },
+        error: error => {
+          console.error('Error fetching products:', error);
+        },
+      });
+  }
+
+  onPaginateChange(): void {
+    this.pageIndex = this.paginator.pageIndex;
+    this.pageSize = this.paginator.pageSize;
+    this.getProducts();
+  }
+
+  onSortChange(): void {
+    this.sortActive = this.sort.active;
+    this.sortDirection = this.sort.direction as 'asc' | 'desc';
+    this.getProducts();
   }
 
   openCreateDialog(): void {
