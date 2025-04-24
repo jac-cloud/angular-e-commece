@@ -1,9 +1,7 @@
 <div class="container">
   <div class="flex flex-row gap-4 items-center mb-4">
     <span class="title text-xl font-medium">Product List</span>
-     <button mat-flat-button color="primary" (click)="openCreateDialog()">
-      Add
-     </button>
+    <button mat-flat-button color="primary" (click)="openCreateDialog()">Add</button>
   </div>
   <div>
     <table mat-table [dataSource]="dataSource" class="mat-table">
@@ -52,8 +50,8 @@
           <button mat-icon-button color="white">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button color="white">
-            <mat-icon>delete</mat-icon>
+          <button mat-icon-button color="white" (click)="openDeleteDialog(product)">
+            <mat-icon color="warn">delete</mat-icon>
           </button>
         </td>
       </ng-container>

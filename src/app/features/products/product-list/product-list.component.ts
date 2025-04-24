@@ -9,11 +9,19 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ProductCreateDialogComponent } from '../product-create-dialog/product-create-dialog.component';
+import { ProductDeleteDialogComponent } from '../product-delete-dialog/product-delete-dialog.component';
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [MatTableModule, MatButtonModule, MatIconModule, MatCardModule, MatTooltipModule],
+  imports: [
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule,
+    MatCardModule,
+    MatTooltipModule,
+    ProductDeleteDialogComponent,
+  ],
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.scss'],
 })
@@ -47,6 +55,18 @@ export class ProductListComponent implements OnInit {
       width: '500px',
     });
 
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.getProducts();
+      }
+    });
+  }
+
+  openDeleteDialog(product: any): void {
+    const dialogRef = this.dialog.open(ProductDeleteDialogComponent, {
+      width: '400px',
+      data: { product },
+    });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.getProducts();
