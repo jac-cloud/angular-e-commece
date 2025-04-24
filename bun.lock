@@ -14,6 +14,8 @@
         "@angular/platform-browser": "17.3.0",
         "@angular/platform-browser-dynamic": "17.3.0",
         "@angular/router": "17.3.0",
+        "@ngrx/effects": "^17.2.0",
+        "@ngrx/store": "^17.2.0",
         "@tailwindcss/postcss": "^4.0.14",
         "postcss": "^8.5.3",
         "rxjs": "~7.8.0",
@@ -457,6 +459,12 @@
     "@material/touch-target": ["@material/touch-target@15.0.0-canary.7f224ddd4.0", "", { "dependencies": { "@material/base": "15.0.0-canary.7f224ddd4.0", "@material/feature-targeting": "15.0.0-canary.7f224ddd4.0", "@material/rtl": "15.0.0-canary.7f224ddd4.0", "@material/theme": "15.0.0-canary.7f224ddd4.0", "tslib": "^2.1.0" } }, "sha512-BJo/wFKHPYLGsRaIpd7vsQwKr02LtO2e89Psv0on/p0OephlNIgeB9dD9W+bQmaeZsZ6liKSKRl6wJWDiK71PA=="],
 
     "@material/typography": ["@material/typography@15.0.0-canary.7f224ddd4.0", "", { "dependencies": { "@material/feature-targeting": "15.0.0-canary.7f224ddd4.0", "@material/theme": "15.0.0-canary.7f224ddd4.0", "tslib": "^2.1.0" } }, "sha512-kBaZeCGD50iq1DeRRH5OM5Jl7Gdk+/NOfKArkY4ksBZvJiStJ7ACAhpvb8MEGm4s3jvDInQFLsDq3hL+SA79sQ=="],
+
+    "@ngrx/effects": ["@ngrx/effects@17.2.0", "", { "dependencies": { "@ngrx/operators": "17.0.0-beta.0", "tslib": "^2.0.0" }, "peerDependencies": { "@angular/core": "^17.0.0", "@ngrx/store": "17.2.0", "rxjs": "^6.5.3 || ^7.5.0" } }, "sha512-tXDJNsuBtbvI/7+vYnkDKKpUvLbopw1U5G6LoPnKNrbTPsPcUGmCqF5Su/ZoRN3BhXjt2j+eoeVdpBkxdxMRgg=="],
+
+    "@ngrx/operators": ["@ngrx/operators@17.0.0-beta.0", "", { "dependencies": { "tslib": "^2.3.0" }, "peerDependencies": { "rxjs": "^6.5.3 || ^7.4.0" } }, "sha512-EbO8AONuQ6zo2v/mPyBOi4y0CTAp1x4Z+bx7ZF+Pd8BL5ma53BTCL1TmzaeK5zPUe0yApudLk9/ZbHXPnVox5A=="],
+
+    "@ngrx/store": ["@ngrx/store@17.2.0", "", { "dependencies": { "tslib": "^2.0.0" }, "peerDependencies": { "@angular/core": "^17.0.0", "rxjs": "^6.5.3 || ^7.5.0" } }, "sha512-7wKgZ59B/6yQSvvsU0DQXipDqpkAXv7LwcXLD5Ww7nvqN0fQoRPThMh4+Wv55DCJhE0bQc1NEMciLA47uRt7Wg=="],
 
     "@ngtools/webpack": ["@ngtools/webpack@17.3.12", "", { "peerDependencies": { "@angular/compiler-cli": "^17.0.0", "typescript": ">=5.2 <5.5", "webpack": "^5.54.0" } }, "sha512-zFFFpcYsqKWdQNNKNZZIouaJco5LQ6sIFxnrG1tbn6sApFWWKRiDS3mguWdyZfD1R4yD4ZaZApGdWhfwJLuM0w=="],
 

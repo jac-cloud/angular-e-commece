@@ -1,13 +1,14 @@
 import { AuthService } from '@/api/services';
-import { TokenService } from '@/core/services/token.service';
+import { setToken } from '@/state/actions/token.actions';
 import { NgIf } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,11 @@ import { RouterLink } from '@angular/router';
 export class LoginComponent {
   errorMessage: string | null = null;
 
-  constructor(private authService: AuthService, private tokenService: TokenService) {}
+  constructor(
+    private authService: AuthService,
+    private store: Store,
+    private router: Router,
+  ) {}
 
   onSubmit(form: NgForm) {
     this.errorMessage = null; // Reset error message
@@ -35,7 +40,8 @@ export class LoginComponent {
       .subscribe({
         next: response => {
           console.log('Login successful', response);
-          this.tokenService.setToken(response.token);
+          this.store.dispatch(setToken({ token: response.token }));
+          this.router.navigate(['/app']);
         },
         error: error => {
           console.error('Login failed', error);

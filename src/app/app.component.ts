@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { loadTokenFromStorage } from './state/actions/token.actions';
 
 @Component({
   selector: 'app-root',
@@ -10,4 +12,8 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'e-commerce';
+
+  constructor(private store: Store) {
+    this.store.dispatch(loadTokenFromStorage());
+  }
 }

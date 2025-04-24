@@ -1,15 +1,22 @@
+import { clearToken } from '@/state/actions/token.actions';
+import { selectToken } from '@/state/selectors/token.selectors';
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { tap } from 'rxjs';
-import { TokenService } from '../services/token.service';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const token = inject(TokenService)['tokenSubject'].getValue();
+  const store = inject(Store);
+  let tokenValue: string | null = null;
+  store
+    .select(selectToken)
+    .subscribe(token => (tokenValue = token))
+    .unsubscribe();
 
-  if (token && !req.headers.has('Authorization')) {
+  if (tokenValue && !req.headers.has('Authorization')) {
     req = req.clone({
       setHeaders: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${tokenValue}`,
       },
     });
   }
@@ -18,7 +25,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     tap({
       error: err => {
         if (err.status === 401) {
-          inject(TokenService).clearToken();
+          store.dispatch(clearToken());
         }
       },
     }),

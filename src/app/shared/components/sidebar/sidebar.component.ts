@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { Router, RouterModule, RouterOutlet } from '@angular/router';
 
 // Import Angular Material Modules directly in the component
-import { TokenService } from '@/core/services/token.service';
+import { clearToken } from '@/state/actions/token.actions';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-sidebar',
@@ -18,11 +19,11 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 export class SidebarComponent {
   constructor(
     private router: Router,
-    private tokenService: TokenService,
+    private store: Store,
   ) {}
 
   logout() {
-    this.tokenService.clearToken();
+    this.store.dispatch(clearToken());
     this.router.navigate(['/login']);
   }
 }

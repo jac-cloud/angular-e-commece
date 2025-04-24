@@ -1,14 +1,14 @@
+import { selectToken } from '@/state/selectors/token.selectors';
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { map } from 'rxjs';
-import { TokenService } from '../services/token.service';
 
 export const authGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
+  const store = inject(Store);
 
-  const tokenService = inject(TokenService);
-
-  const isAuthenticated = tokenService.token$.pipe(map(token => !!token));
+  const isAuthenticated = store.select(selectToken).pipe(map(token => !!token));
   return isAuthenticated.pipe(
     map(isAuth => {
       if (!isAuth) {
@@ -16,6 +16,6 @@ export const authGuard: CanActivateFn = (route, state) => {
         return false;
       }
       return true;
-    })
+    }),
   );
 };
