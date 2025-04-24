@@ -10,6 +10,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ProductCreateDialogComponent } from '../product-create-dialog/product-create-dialog.component';
 import { ProductDeleteDialogComponent } from '../product-delete-dialog/product-delete-dialog.component';
+import { ProductUpdateDialogComponent } from '../product-update-dialog/product-update-dialog.component';
 
 @Component({
   selector: 'app-product-list',
@@ -21,6 +22,7 @@ import { ProductDeleteDialogComponent } from '../product-delete-dialog/product-d
     MatCardModule,
     MatTooltipModule,
     ProductDeleteDialogComponent,
+    ProductUpdateDialogComponent, // add update dialog
   ],
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.scss'],
@@ -65,6 +67,18 @@ export class ProductListComponent implements OnInit {
   openDeleteDialog(product: any): void {
     const dialogRef = this.dialog.open(ProductDeleteDialogComponent, {
       width: '400px',
+      data: { product },
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.getProducts();
+      }
+    });
+  }
+
+  openUpdateDialog(product: any): void {
+    const dialogRef = this.dialog.open(ProductUpdateDialogComponent, {
+      width: '500px',
       data: { product },
     });
     dialogRef.afterClosed().subscribe(result => {

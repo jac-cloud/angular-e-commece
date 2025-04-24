@@ -1,0 +1,41 @@
+<h2 mat-dialog-title>Update Product</h2>
+<mat-dialog-content class="form">
+  <mat-form-field appearance="fill">
+    <mat-label>Name</mat-label>
+    <input matInput [(ngModel)]="product.name" required />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Description</mat-label>
+    <textarea matInput rows="3" [(ngModel)]="product.description"></textarea>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Price</mat-label>
+    <input matInput type="number" [(ngModel)]="product.price" />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Stock</mat-label>
+    <input matInput type="number" [(ngModel)]="product.stock" />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Category</mat-label>
+    <mat-select [(ngModel)]="product.categoryId">
+      <mat-option *ngFor="let cat of categories" [value]="cat._id">
+        {{ cat.name }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Image URL</mat-label>
+    <input matInput [(ngModel)]="product.imageUrl" />
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-flat-button color="primary" (click)="onSave()">Update</button>
+</mat-dialog-actions>
