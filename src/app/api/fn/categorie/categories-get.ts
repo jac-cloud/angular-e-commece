@@ -8,7 +8,11 @@ import { filter, map } from 'rxjs/operators';
 import { RequestBuilder } from '../../request-builder';
 import { StrictHttpResponse } from '../../strict-http-response';
 
-export interface CategoriesGet$Params {}
+export interface CategoriesGet$Params {
+  page?: number;
+  limit?: number;
+  sort?: string;
+}
 
 export function categoriesGet(
   http: HttpClient,
@@ -18,6 +22,9 @@ export function categoriesGet(
 ): Observable<StrictHttpResponse<any>> {
   const rb = new RequestBuilder(rootUrl, categoriesGet.PATH, 'get');
   if (params) {
+    rb.query('page', params.page, {});
+    rb.query('limit', params.limit, {});
+    rb.query('sort', params.sort, {});
   }
 
   return http.request(rb.build({ responseType: 'json', accept: 'application/json', context })).pipe(
