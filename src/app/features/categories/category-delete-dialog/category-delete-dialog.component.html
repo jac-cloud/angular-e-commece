@@ -1,0 +1,12 @@
+<h2 mat-dialog-title>Delete Category</h2>
+<mat-dialog-content>
+  <p>Are you sure you want to delete this category?</p>
+  <div class="category-info">
+    <strong>{{ category.name }}</strong>
+    <div *ngIf="category.description">{{ category.description }}</div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-stroked-button color="secondary" (click)="onCancel()">Cancel</button>
+  <button mat-flat-button color="warn" (click)="onDelete()">Delete</button>
+</mat-dialog-actions>

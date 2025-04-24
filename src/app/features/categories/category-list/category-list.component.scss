@@ -1,0 +1,26 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 20px;
+
+  .mat-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .mat-header-cell, .mat-cell {
+    padding: 10px;
+  }
+  
+  .product-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+  
+  button {
+    margin-right: 8px;
+  }
+}

@@ -10,7 +10,10 @@ import { StrictHttpResponse } from '../../strict-http-response';
 
 export interface CategoriesPost$Params {
   'Content-Type'?: string;
-  body?: {};
+  body?: {
+    name: string;
+    description: string;
+  };
 }
 
 export function categoriesPost(
