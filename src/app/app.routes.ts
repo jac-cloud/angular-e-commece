@@ -3,6 +3,7 @@ import { RouterModule, type Routes } from '@angular/router';
 import { LoginComponent } from './core/auth/login/login.component';
 import { RegisterComponent } from './core/auth/register/register.component';
 import { authGuard } from './core/guards/auth.guard';
+import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { ProductListComponent } from './features/products/product-list/product-list.component';
 import { NotFoundComponent } from './shared/components/not-found/not-found.component';
 import { SidebarComponent } from './shared/components/sidebar/sidebar.component';
@@ -24,6 +25,10 @@ export const routes: Routes = [
       {
         path: 'products',
         component: ProductListComponent,
+      },
+      {
+        path: 'dashboard',
+        component: DashboardComponent,
       },
     ],
   },
