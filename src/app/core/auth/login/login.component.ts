@@ -1,5 +1,5 @@
 import { AuthService } from '@/api/services';
-import { setToken } from '@/state/actions/token.actions';
+import { setToken } from '@/state/token/actions';
 import { NgIf } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { Component } from '@angular/core';

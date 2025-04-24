@@ -1,5 +1,5 @@
-import { clearToken } from '@/state/actions/token.actions';
-import { selectToken } from '@/state/selectors/token.selectors';
+import { clearToken } from '@/state/token/actions';
+import { selectToken } from '@/state/token/selectors';
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Store } from '@ngrx/store';

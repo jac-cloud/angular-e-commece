@@ -1,7 +1,7 @@
+import { loadTokenFromStorage } from '@/state/token/actions';
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { loadTokenFromStorage } from './state/actions/token.actions';
 
 @Component({
   selector: 'app-root',

@@ -1,4 +1,4 @@
-import { selectToken } from '@/state/selectors/token.selectors';
+import { selectToken } from '@/state/token/selectors';
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { Store } from '@ngrx/store';

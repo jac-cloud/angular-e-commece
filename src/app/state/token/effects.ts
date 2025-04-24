@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { map, tap } from 'rxjs/operators';
-import * as TokenActions from '../actions/token.actions';
+import * as TokenActions from './actions';
 
 @Injectable()
 export class TokenEffects {

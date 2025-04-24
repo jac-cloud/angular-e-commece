@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { TokenState } from '../reducers/token.reducer';
+import { TokenState } from './reducers';
 
 export const selectTokenState = createFeatureSelector<TokenState>('token');
 

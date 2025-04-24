@@ -1,5 +1,5 @@
 import { createReducer, on } from '@ngrx/store';
-import * as TokenActions from '../actions/token.actions';
+import * as TokenActions from './actions';
 
 export interface TokenState {
   token: string | null;
