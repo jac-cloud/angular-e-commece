@@ -1,0 +1,30 @@
+<mat-card *ngIf="order">
+  <mat-card-title>Order Details</mat-card-title>
+
+  <mat-card-content>
+    <div class="field"><strong>ID:</strong> {{ order.id }}</div>
+    <div class="field"><strong>Date:</strong> {{ order.createdAt | date:'short' }}</div>
+    <div class="field"><strong>Total Amount:</strong> {{ order.totalAmount | currency }}</div>
+
+    <mat-form-field appearance="fill" class="field">
+      <mat-label>Status</mat-label>
+      <mat-select [(value)]="selectedStatus">
+        <mat-option *ngFor="let s of statuses" [value]="s">{{ s }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div *ngIf="order.items?.length" class="items">
+      <strong>Items:</strong>
+      <ul>
+        <li *ngFor="let item of order.items">
+          {{ item.productName }} x {{ item.quantity }} - {{ item.price | currency }}
+        </li>
+      </ul>
+    </div>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <button mat-flat-button color="primary" (click)="updateStatus()">Update Status</button>
+    <button mat-button (click)="goBack()">Back</button>
+  </mat-card-actions>
+</mat-card>

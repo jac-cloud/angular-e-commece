@@ -14,17 +14,7 @@ import { CategoryUpdateDialogComponent } from '../category-update-dialog/categor
 @Component({
   selector: 'app-category-list',
   standalone: true,
-  imports: [
-    MatTableModule,
-    MatButtonModule,
-    MatIconModule,
-    MatCardModule,
-    MatPaginatorModule,
-    MatSortModule,
-    CategoryCreateDialogComponent,
-    CategoryDeleteDialogComponent,
-    CategoryUpdateDialogComponent, // add update dialog
-  ],
+  imports: [MatTableModule, MatButtonModule, MatIconModule, MatCardModule, MatPaginatorModule, MatSortModule],
   templateUrl: './category-list.component.html',
   styleUrl: './category-list.component.scss',
 })

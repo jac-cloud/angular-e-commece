@@ -1,0 +1,33 @@
+<h2 mat-dialog-title>New Order</h2>
+<mat-dialog-content>
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Status</mat-label>
+    <mat-select [(ngModel)]="selectedStatus">
+      <mat-option *ngFor="let s of statuses" [value]="s">{{ s }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="autocomplete-field">
+    <mat-label>User</mat-label>
+    <input
+      type="text"
+      matInput
+      [(ngModel)]="userSearch"
+      name="userSearch"
+      [matAutocomplete]="auto"
+      (ngModelChange)="filterUsers()"
+    />
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectedUserId = $event.option.value">
+      <mat-option *ngFor="let u of filteredUsers" [value]="u.id">
+        {{ u.id }} {{ u.name ? '- ' + u.name : '' }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Total Amount</mat-label>
+    <input matInput type="number" [(ngModel)]="totalAmount" />
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-flat-button color="primary" (click)="onSave()">Save</button>
+</mat-dialog-actions>
