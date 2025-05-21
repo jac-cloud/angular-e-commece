@@ -16,7 +16,7 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 })
 export class OrderDetailComponent implements OnInit {
   order: any;
-  statuses: string[] = ['Pending', 'Shipped', 'Delivered', 'Canceled'];
+  statuses: string[] = ['pending', 'completed', 'canceled'];
   selectedStatus = '';
 
   constructor(
