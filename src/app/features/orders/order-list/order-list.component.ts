@@ -29,7 +29,7 @@ import { OrderCreateDialogComponent } from '../order-create-dialog/order-create-
 export class OrderListComponent implements OnInit {
   dataSource = new MatTableDataSource<any>([]);
   displayedColumns: string[] = ['id', 'createdAt', 'status', 'totalAmount', 'actions'];
-  statuses: string[] = ['Pending', 'Shipped', 'Delivered', 'Canceled'];
+  statuses: string[] = ['pending', 'completed', 'canceled'];
   selectedStatus = '';
 
   constructor(
