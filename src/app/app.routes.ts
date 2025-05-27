@@ -13,6 +13,11 @@ import { SidebarComponent } from './shared/components/sidebar/sidebar.component'
 
 export const routes: Routes = [
   {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'login',
+  },
+  {
     path: 'login',
     component: LoginComponent,
   },
@@ -25,6 +30,11 @@ export const routes: Routes = [
     canActivate: [authGuard],
     component: SidebarComponent,
     children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'dashboard',
+      },
       {
         path: 'products',
         component: ProductListComponent,
