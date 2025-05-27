@@ -36,7 +36,7 @@ import { OrderCreateDialogComponent } from '../order-create-dialog/order-create-
   styleUrls: ['./order-list.component.scss'],
 })
 export class OrderListComponent implements OnInit, AfterViewInit {
-  displayedColumns: string[] = ['id', 'createdAt', 'userEmail', 'status', 'totalAmount', 'actions'];
+  displayedColumns: string[] = ['orderNumber', 'createdAt', 'userEmail', 'status', 'totalAmount', 'actions'];
   dataSource = new MatTableDataSource<any>([]);
   totalOrders = 10000;
   pageSize = 5;
