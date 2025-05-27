@@ -11,7 +11,14 @@
         <mat-option *ngFor="let status of statuses" [value]="status">{{ status }}</mat-option>
       </mat-select>
     </mat-form-field>
-    <table mat-table [dataSource]="dataSource" class="mat-table mat-elevation-z8" matSort>
+    <div *ngIf="dataSource.data.length === 0" class="no-results">No orders found.</div>
+    <table
+      *ngIf="dataSource.data.length > 0"
+      mat-table
+      [dataSource]="dataSource"
+      class="mat-table mat-elevation-z8"
+      matSort
+    >
       <!-- Order Number Column -->
       <ng-container matColumnDef="orderNumber">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Order Number</th>
@@ -56,6 +63,7 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
     <mat-paginator
+      *ngIf="dataSource.data.length > 0"
       [length]="totalOrders"
       [pageSize]="pageSize"
       [pageIndex]="pageIndex"

@@ -12,11 +12,12 @@ import { map } from 'rxjs/operators';
 import { CategoryCreateDialogComponent } from '../category-create-dialog/category-create-dialog.component';
 import { CategoryDeleteDialogComponent } from '../category-delete-dialog/category-delete-dialog.component';
 import { CategoryUpdateDialogComponent } from '../category-update-dialog/category-update-dialog.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-category-list',
   standalone: true,
-  imports: [MatTableModule, MatButtonModule, MatIconModule, MatCardModule, MatPaginatorModule, MatSortModule],
+  imports: [MatTableModule, MatButtonModule, MatIconModule, MatCardModule, MatPaginatorModule, MatSortModule, CommonModule],
   templateUrl: './category-list.component.html',
   styleUrl: './category-list.component.scss',
 })

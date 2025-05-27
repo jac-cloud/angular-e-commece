@@ -1,6 +1,12 @@
-import { ProductService } from '@/api/services';
+import { CategorieService, ProductService } from '@/api/services';
 import { StrictHttpResponse } from '@/api/strict-http-response';
+import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { MatOptionModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { MatTableDataSource } from '@angular/material/table';
 import { map } from 'rxjs/operators';
 
@@ -20,6 +26,7 @@ import { ProductUpdateDialogComponent } from '../product-update-dialog/product-u
   selector: 'app-product-list',
   standalone: true,
   imports: [
+    CommonModule,
     MatTableModule,
     MatButtonModule,
     MatIconModule,
@@ -29,6 +36,11 @@ import { ProductUpdateDialogComponent } from '../product-update-dialog/product-u
     MatSortModule,
     ProductDeleteDialogComponent,
     ProductUpdateDialogComponent, // add update dialog
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatOptionModule,
   ],
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.scss'],
@@ -41,17 +53,30 @@ export class ProductListComponent implements OnInit {
   pageIndex = 0;
   sortActive = 'createdAt';
   sortDirection: 'asc' | 'desc' = 'desc';
+  searchName = '';
+  selectedCategoryId = '';
+  categories: any[] = [];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     private productService: ProductService,
+    private categorieService: CategorieService,
     private dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
+    this.getCategories();
     this.getProducts();
+  }
+
+  getCategories(): void {
+    // Fetch all categories for the select dropdown
+    this.categorieService.categoriesGet().subscribe({
+      next: (data: any) => (this.categories = data),
+      error: (err: any) => console.error('Failed to fetch categories', err),
+    });
   }
 
   ngAfterViewInit(): void {
@@ -62,12 +87,15 @@ export class ProductListComponent implements OnInit {
 
   getProducts(): void {
     const sort = this.sortActive ? `${this.sortDirection === 'desc' ? '-' : ''}${this.sortActive}` : undefined;
+    const params: any = {
+      page: this.pageIndex + 1,
+      limit: this.pageSize,
+      sort,
+    };
+    if (this.searchName) params.name = this.searchName;
+    if (this.selectedCategoryId) params.categoryId = this.selectedCategoryId;
     this.productService
-      .productsGet$Response({
-        page: this.pageIndex + 1,
-        limit: this.pageSize,
-        sort,
-      })
+      .productsGet$Response(params)
       .pipe(
         map((r: StrictHttpResponse<any>): any => {
           const countHeader = r.headers.get('odin-count');
@@ -87,6 +115,30 @@ export class ProductListComponent implements OnInit {
           console.error('Error fetching products:', error);
         },
       });
+  }
+
+  onSearchNameChange(value: string): void {
+    this.searchName = value;
+    this.pageIndex = 0;
+    this.getProducts();
+  }
+
+  onCategoryChange(value: string): void {
+    this.selectedCategoryId = value;
+    this.pageIndex = 0;
+    this.getProducts();
+  }
+
+  clearSearchName(): void {
+    this.searchName = '';
+    this.pageIndex = 0;
+    this.getProducts();
+  }
+
+  clearCategory(): void {
+    this.selectedCategoryId = '';
+    this.pageIndex = 0;
+    this.getProducts();
   }
 
   onPaginateChange(): void {

@@ -12,6 +12,8 @@ export interface ProductsGet$Params {
   page?: number;
   limit?: number;
   sort?: string;
+  name?: string;
+  categoryId?: string;
 }
 
 export function productsGet(
@@ -25,6 +27,8 @@ export function productsGet(
     rb.query('page', params.page, {});
     rb.query('limit', params.limit, {});
     rb.query('sort', params.sort, {});
+    rb.query('name', params.name, {});
+    rb.query('categoryId', params.categoryId, {});
   }
 
   rb.query('count', 'true');

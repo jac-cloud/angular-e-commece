@@ -4,7 +4,8 @@
     <button mat-flat-button color="primary" (click)="onAdd()">Add</button>
   </div>
   <div>
-    <table mat-table [dataSource]="dataSource" class="mat-table" matSort>
+    <div *ngIf="dataSource.data.length === 0" class="no-results">No categories found.</div>
+    <table *ngIf="dataSource.data.length > 0" mat-table [dataSource]="dataSource" class="mat-table" matSort>
       <!-- Name Column -->
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
@@ -34,6 +35,7 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
     <mat-paginator
+      *ngIf="dataSource.data.length > 0"
       [length]="totalCategories"
       [pageSize]="pageSize"
       [pageIndex]="pageIndex"
