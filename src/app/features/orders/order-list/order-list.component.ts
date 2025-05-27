@@ -1,11 +1,14 @@
 import { OrderService } from '@/api/services';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Router, RouterModule } from '@angular/router';
 import { OrderCreateDialogComponent } from '../order-create-dialog/order-create-dialog.component';
@@ -22,15 +25,27 @@ import { OrderCreateDialogComponent } from '../order-create-dialog/order-create-
     MatButtonModule,
     RouterModule,
     MatDialogModule,
+    MatIconModule,
+    MatPaginatorModule,
+    MatSortModule,
+    OrderCreateDialogComponent,
   ],
   templateUrl: './order-list.component.html',
-  // styleUrls: ['./order-list.component.scss'],
+  styleUrls: ['./order-list.component.scss'],
 })
-export class OrderListComponent implements OnInit {
+export class OrderListComponent implements OnInit, AfterViewInit {
+  displayedColumns: string[] = ['id', 'createdAt', 'userEmail', 'status', 'totalAmount', 'actions'];
   dataSource = new MatTableDataSource<any>([]);
-  displayedColumns: string[] = ['id', 'createdAt', 'status', 'totalAmount', 'actions'];
+  totalOrders = 10000;
+  pageSize = 5;
+  pageIndex = 0;
+  sortActive = 'createdAt';
+  sortDirection: 'asc' | 'desc' = 'desc';
   statuses: string[] = ['pending', 'completed', 'canceled'];
   selectedStatus = '';
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     private orderService: OrderService,
@@ -42,20 +57,48 @@ export class OrderListComponent implements OnInit {
     this.getOrders();
   }
 
+  ngAfterViewInit(): void {
+    this.dataSource.sort = this.sort;
+    this.paginator.page.subscribe(() => this.onPaginateChange());
+    this.sort.sortChange.subscribe(() => this.onSortChange());
+  }
+
   getOrders(): void {
-    this.orderService.ordersGet().subscribe(orders => {
-      this.dataSource.data = orders;
-      this.applyFilter();
-    });
+    // If your API supports pagination and sorting, pass them here
+    // Otherwise, fetch all and slice client-side
+    const sort = this.sortActive ? `${this.sortDirection === 'desc' ? '-' : ''}${this.sortActive}` : undefined;
+    this.orderService
+      .ordersGet({
+        page: this.pageIndex + 1,
+        limit: this.pageSize,
+        sort,
+        status: this.selectedStatus || undefined,
+      })
+      .subscribe({
+        next: (data: any) => {
+          this.dataSource.data = data;
+        },
+        error: error => {
+          console.error('Error fetching orders:', error);
+        },
+      });
+  }
+
+  onPaginateChange(): void {
+    this.pageIndex = this.paginator.pageIndex;
+    this.pageSize = this.paginator.pageSize;
+    this.getOrders();
+  }
+
+  onSortChange(): void {
+    this.sortActive = this.sort.active;
+    this.sortDirection = this.sort.direction as 'asc' | 'desc';
+    this.getOrders();
   }
 
   applyFilter(): void {
-    if (!this.selectedStatus) {
-      this.dataSource.filter = '';
-    } else {
-      this.dataSource.filterPredicate = (data, filter) => data.status === filter;
-      this.dataSource.filter = this.selectedStatus;
-    }
+    this.pageIndex = 0;
+    this.getOrders();
   }
 
   viewDetails(order: any): void {
@@ -63,11 +106,11 @@ export class OrderListComponent implements OnInit {
   }
 
   openCreateDialog(): void {
-    const ref = this.dialog.open(OrderCreateDialogComponent, {
+    const dialogRef = this.dialog.open(OrderCreateDialogComponent, {
       width: '400px',
     });
-    ref.afterClosed().subscribe(created => {
-      if (created) {
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
         this.getOrders();
       }
     });

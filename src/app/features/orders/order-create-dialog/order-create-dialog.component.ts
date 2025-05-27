@@ -1,4 +1,4 @@
-import { OrderService, ProductService, UserService } from '@/api/services';
+import { OrderItemService, OrderService, ProductService, UserService } from '@/api/services';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -27,12 +27,14 @@ import { MatSelectModule } from '@angular/material/select';
     MatIconModule,
   ],
   templateUrl: './order-create-dialog.component.html',
+  styleUrls: ['./order-create-dialog.component.scss'],
 })
 export class OrderCreateDialogComponent implements OnInit {
   users: any[] = [];
   filteredUsers: any[] = [];
   userSearch = '';
   selectedUserId = '';
+  selectedUser: any = null;
   statuses: string[] = ['pending', 'completed', 'canceled'];
   selectedStatus = 'pending';
   products: any[] = [];
@@ -41,6 +43,7 @@ export class OrderCreateDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<OrderCreateDialogComponent>,
     private orderService: OrderService,
+    private orderItemService: OrderItemService,
     private productService: ProductService,
     private userService: UserService,
   ) {
@@ -53,11 +56,24 @@ export class OrderCreateDialogComponent implements OnInit {
 
   ngOnInit(): void {
     // load products
-    this.productService.productsGet().subscribe(data => (this.products = data));
+    this.productService.productsGet().subscribe({
+      next: data => (this.products = data),
+      error: err => console.error('Failed to fetch products', err),
+    });
+
+    // load orderItems
+    this.orderItemService.orderitemsGet().subscribe({
+      next: data => console.log('Order items loaded', data),
+      error: err => console.error('Failed to fetch order items', err),
+    });
+
     // load users
-    this.userService.usersGet().subscribe(data => {
-      this.users = data;
-      this.filteredUsers = data;
+    this.userService.usersGet().subscribe({
+      next: data => {
+        this.users = data;
+        this.filteredUsers = data;
+      },
+      error: err => console.error('Failed to fetch users', err),
     });
   }
 
@@ -69,10 +85,20 @@ export class OrderCreateDialogComponent implements OnInit {
     this.items.splice(index, 1);
   }
 
-  /** Filter users list based on search input */
+  /** Filter users list based on search input (by email) */
   filterUsers(): void {
     const term = this.userSearch.toLowerCase();
-    this.filteredUsers = this.users.filter(u => u.id.toLowerCase().includes(term));
+    this.filteredUsers = this.users.filter(u => u.email && u.email.toLowerCase().includes(term));
+  }
+
+  /** Called when a user is selected from autocomplete */
+  onUserSelected(email: string): void {
+    const user = this.users.find(u => u.email === email);
+    if (user) {
+      this.selectedUserId = user.id;
+      this.selectedUser = user;
+      this.userSearch = user.email;
+    }
   }
 
   get totalAmount(): number {
@@ -90,11 +116,38 @@ export class OrderCreateDialogComponent implements OnInit {
     const body: any = {
       userId: this.selectedUserId,
       status: this.selectedStatus,
-      items: this.items,
       totalAmount: this.totalAmount,
     };
     this.orderService.ordersPost({ body }).subscribe({
-      next: created => this.dialogRef.close(created),
+      next: created => {
+        // for each item create an order item
+        const orderId = created.id;
+
+        // order item must have productId, quantity, and price
+        const orderItemsPayloads = this.items.map(item => {
+          const product = this.products.find(p => p.id === item.productId);
+          return {
+            orderId,
+            productId: item.productId,
+            quantity: item.quantity,
+            price: product?.price || 0,
+          };
+        });
+
+        const promises = orderItemsPayloads.map<Promise<any>>(
+          orderItem =>
+            new Promise((resolve, reject) => {
+              this.orderItemService.orderitemsPost({ body: orderItem }).subscribe({
+                next: data => resolve(data),
+                error: err => reject(err),
+              });
+            }),
+        );
+
+        Promise.all(promises).then(created => {
+          this.dialogRef.close(created);
+        });
+      },
       error: err => console.error('Order creation failed', err),
     });
   }

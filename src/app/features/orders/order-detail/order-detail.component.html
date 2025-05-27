@@ -1,30 +1,49 @@
-<mat-card *ngIf="order">
-  <mat-card-title>Order Details</mat-card-title>
-
-  <mat-card-content>
-    <div class="field"><strong>ID:</strong> {{ order.id }}</div>
-    <div class="field"><strong>Date:</strong> {{ order.createdAt | date:'short' }}</div>
-    <div class="field"><strong>Total Amount:</strong> {{ order.totalAmount | currency }}</div>
-
-    <mat-form-field appearance="fill" class="field">
-      <mat-label>Status</mat-label>
-      <mat-select [(value)]="selectedStatus">
-        <mat-option *ngFor="let s of statuses" [value]="s">{{ s }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-
-    <div *ngIf="order.items?.length" class="items">
-      <strong>Items:</strong>
-      <ul>
-        <li *ngFor="let item of order.items">
-          {{ item.productName }} x {{ item.quantity }} - {{ item.price | currency }}
-        </li>
-      </ul>
+<div class="container" *ngIf="order">
+  <div class="header">
+    <span class="title">Order Details</span>
+    <div class="actions">
+      <button mat-flat-button color="primary" (click)="updateStatus()">Update Status</button>
+      <button mat-button (click)="goBack()">Back</button>
     </div>
-  </mat-card-content>
-
-  <mat-card-actions>
-    <button mat-flat-button color="primary" (click)="updateStatus()">Update Status</button>
-    <button mat-button (click)="goBack()">Back</button>
-  </mat-card-actions>
-</mat-card>
+  </div>
+  <mat-card>
+    <mat-card-content>
+      <div class="details-grid">
+        <div><strong>ID:</strong> {{ order.id }}</div>
+        <div><strong>Date:</strong> {{ order.createdAt | date: 'short' }}</div>
+        <div><strong>Total Amount:</strong> {{ order.totalAmount | currency }}</div>
+        <div>
+          <mat-form-field appearance="fill">
+            <mat-label>Status</mat-label>
+            <mat-select [(value)]="selectedStatus">
+              <mat-option *ngFor="let s of statuses" [value]="s">{{ s }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div *ngIf="orderItems.length" class="items-table">
+        <span class="subtitle">Order Items</span>
+        <table mat-table [dataSource]="orderItems" class="mat-table mat-elevation-z8">
+          <ng-container matColumnDef="product">
+            <th mat-header-cell *matHeaderCellDef>Product</th>
+            <td mat-cell *matCellDef="let item">{{ item.productName || item.product?.name }}</td>
+          </ng-container>
+          <ng-container matColumnDef="quantity">
+            <th mat-header-cell *matHeaderCellDef>Quantity</th>
+            <td mat-cell *matCellDef="let item">{{ item.quantity }}</td>
+          </ng-container>
+          <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef>Price</th>
+            <td mat-cell *matCellDef="let item">{{ item.price | currency }}</td>
+          </ng-container>
+          <ng-container matColumnDef="total">
+            <th mat-header-cell *matHeaderCellDef>Total</th>
+            <td mat-cell *matCellDef="let item">{{ item.quantity * item.price | currency }}</td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="['product', 'quantity', 'price', 'total']"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['product', 'quantity', 'price', 'total']"></tr>
+        </table>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

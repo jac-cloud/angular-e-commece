@@ -1,9 +1,8 @@
-// Styles for order creation dialog
-.full-width {
-  width: 100%;
-  margin-bottom: 16px;
-}
 
-button {
-  margin-left: 8px;
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 300px;
+  width: 100%;
 }
