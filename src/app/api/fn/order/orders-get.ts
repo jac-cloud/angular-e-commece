@@ -18,6 +18,11 @@ export function ordersGet(
 ): Observable<StrictHttpResponse<any>> {
   const rb = new RequestBuilder(rootUrl, ordersGet.PATH, 'get');
   if (params) {
+    for (const key in params) {
+      if (params.hasOwnProperty(key)) {
+        rb.query(key, params[key as keyof OrdersGet$Params]);
+      }
+    }
   }
 
   return http.request(rb.build({ responseType: 'json', accept: 'application/json', context })).pipe(
