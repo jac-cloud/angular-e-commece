@@ -1,4 +1,5 @@
 import { OrderService } from '@/api/services';
+import { StrictHttpResponse } from '@/api/strict-http-response';
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,6 +12,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { Router, RouterModule } from '@angular/router';
+import { map } from 'rxjs/operators';
 import { OrderCreateDialogComponent } from '../order-create-dialog/order-create-dialog.component';
 
 @Component({
@@ -68,12 +70,24 @@ export class OrderListComponent implements OnInit, AfterViewInit {
     // Otherwise, fetch all and slice client-side
     const sort = this.sortActive ? `${this.sortDirection === 'desc' ? '-' : ''}${this.sortActive}` : undefined;
     this.orderService
-      .ordersGet({
+      .ordersGet$Response({
         page: this.pageIndex + 1,
         limit: this.pageSize,
         sort,
         status: this.selectedStatus || undefined,
       })
+      .pipe(
+        map((r: StrictHttpResponse<any>): any => {
+          const countHeader = r.headers.get('odin-count');
+          if (countHeader) {
+            this.totalOrders = parseInt(countHeader, 10);
+          } else {
+            this.totalOrders = 0;
+          }
+
+          return r.body;
+        }),
+      )
       .subscribe({
         next: (data: any) => {
           this.dataSource.data = data;

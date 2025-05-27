@@ -1,6 +1,8 @@
 import { ProductService } from '@/api/services';
+import { StrictHttpResponse } from '@/api/strict-http-response';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { map } from 'rxjs/operators';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -61,11 +63,22 @@ export class ProductListComponent implements OnInit {
   getProducts(): void {
     const sort = this.sortActive ? `${this.sortDirection === 'desc' ? '-' : ''}${this.sortActive}` : undefined;
     this.productService
-      .productsGet({
+      .productsGet$Response({
         page: this.pageIndex + 1,
         limit: this.pageSize,
         sort,
       })
+      .pipe(
+        map((r: StrictHttpResponse<any>): any => {
+          const countHeader = r.headers.get('odin-count');
+          if (countHeader) {
+            this.totalProducts = parseInt(countHeader, 10);
+          } else {
+            this.totalProducts = 0;
+          }
+          return r.body;
+        }),
+      )
       .subscribe({
         next: (data: any) => {
           this.dataSource.data = data;

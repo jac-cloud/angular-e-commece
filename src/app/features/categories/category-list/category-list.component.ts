@@ -1,4 +1,5 @@
 import { CategorieService } from '@/api/services';
+import { StrictHttpResponse } from '@/api/strict-http-response';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -7,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { map } from 'rxjs/operators';
 import { CategoryCreateDialogComponent } from '../category-create-dialog/category-create-dialog.component';
 import { CategoryDeleteDialogComponent } from '../category-delete-dialog/category-delete-dialog.component';
 import { CategoryUpdateDialogComponent } from '../category-update-dialog/category-update-dialog.component';
@@ -48,11 +50,22 @@ export class CategoryListComponent implements OnInit {
   getCategories(): void {
     const sort = this.sortActive ? `${this.sortDirection === 'desc' ? '-' : ''}${this.sortActive}` : undefined;
     this.categorieService
-      .categoriesGet({
+      .categoriesGet$Response({
         page: this.pageIndex + 1,
         limit: this.pageSize,
         sort,
       })
+      .pipe(
+        map((r: StrictHttpResponse<any>): any => {
+          const countHeader = r.headers.get('odin-count');
+          if (countHeader) {
+            this.totalCategories = parseInt(countHeader, 10);
+          } else {
+            this.totalCategories = 0;
+          }
+          return r.body;
+        }),
+      )
       .subscribe({
         next: (data: any) => {
           this.dataSource.data = data;

@@ -27,6 +27,8 @@ export function productsGet(
     rb.query('sort', params.sort, {});
   }
 
+  rb.query('count', 'true');
+
   return http.request(rb.build({ responseType: 'json', accept: 'application/json', context })).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
