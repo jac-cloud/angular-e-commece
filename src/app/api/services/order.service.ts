@@ -16,6 +16,18 @@ import { OrdersIdDelete$Params, ordersIdDelete } from '../fn/order/orders-id-del
 import { OrdersIdGet$Params, ordersIdGet } from '../fn/order/orders-id-get';
 import { OrdersIdPut$Params, ordersIdPut } from '../fn/order/orders-id-put';
 import { OrdersPost$Params, ordersPost } from '../fn/order/orders-post';
+import { OrderItemSchema } from './order-item.service';
+
+export interface OrderSchema {
+  id: string;
+  orderNumber?: string;
+  userId: string;
+  totalAmount: number;
+  status: 'pending' | 'completed' | 'cancelled';
+  orderItems?: OrderItemSchema[];
+  createdBy?: string;
+  createdAt: string;
+}
 
 @Injectable({ providedIn: 'root' })
 export class OrderService extends BaseService {
@@ -36,7 +48,7 @@ export class OrderService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  ordersIdGet$Response(params: OrdersIdGet$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
+  ordersIdGet$Response(params: OrdersIdGet$Params, context?: HttpContext): Observable<StrictHttpResponse<OrderSchema>> {
     return ordersIdGet(this.http, this.rootUrl, params, context);
   }
 
@@ -50,8 +62,10 @@ export class OrderService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  ordersIdGet(params: OrdersIdGet$Params, context?: HttpContext): Observable<any> {
-    return this.ordersIdGet$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
+  ordersIdGet(params: OrdersIdGet$Params, context?: HttpContext): Observable<OrderSchema> {
+    return this.ordersIdGet$Response(params, context).pipe(
+      map((r: StrictHttpResponse<OrderSchema>): OrderSchema => r.body),
+    );
   }
 
   /** Path part for operation `ordersIdPut()` */
@@ -67,7 +81,7 @@ export class OrderService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  ordersIdPut$Response(params: OrdersIdPut$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
+  ordersIdPut$Response(params: OrdersIdPut$Params, context?: HttpContext): Observable<StrictHttpResponse<OrderSchema>> {
     return ordersIdPut(this.http, this.rootUrl, params, context);
   }
 
@@ -81,8 +95,10 @@ export class OrderService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  ordersIdPut(params: OrdersIdPut$Params, context?: HttpContext): Observable<any> {
-    return this.ordersIdPut$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
+  ordersIdPut(params: OrdersIdPut$Params, context?: HttpContext): Observable<OrderSchema> {
+    return this.ordersIdPut$Response(params, context).pipe(
+      map((r: StrictHttpResponse<OrderSchema>): OrderSchema => r.body),
+    );
   }
 
   /** Path part for operation `ordersIdDelete()` */
@@ -98,7 +114,7 @@ export class OrderService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  ordersIdDelete$Response(params: OrdersIdDelete$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
+  ordersIdDelete$Response(params: OrdersIdDelete$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
     return ordersIdDelete(this.http, this.rootUrl, params, context);
   }
 
@@ -112,8 +128,8 @@ export class OrderService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  ordersIdDelete(params: OrdersIdDelete$Params, context?: HttpContext): Observable<any> {
-    return this.ordersIdDelete$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
+  ordersIdDelete(params: OrdersIdDelete$Params, context?: HttpContext): Observable<void> {
+    return this.ordersIdDelete$Response(params, context).pipe(map((r: StrictHttpResponse<void>): void => r.body));
   }
 
   /** Path part for operation `ordersGet()` */
@@ -129,7 +145,7 @@ export class OrderService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  ordersGet$Response(params?: OrdersGet$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
+  ordersGet$Response(params?: OrdersGet$Params, context?: HttpContext): Observable<StrictHttpResponse<OrderSchema[]>> {
     return ordersGet(this.http, this.rootUrl, params, context);
   }
 
@@ -143,8 +159,10 @@ export class OrderService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  ordersGet(params?: OrdersGet$Params, context?: HttpContext): Observable<any> {
-    return this.ordersGet$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
+  ordersGet(params?: OrdersGet$Params, context?: HttpContext): Observable<OrderSchema[]> {
+    return this.ordersGet$Response(params, context).pipe(
+      map((r: StrictHttpResponse<OrderSchema[]>): OrderSchema[] => r.body),
+    );
   }
 
   /** Path part for operation `ordersPost()` */
@@ -160,7 +178,7 @@ export class OrderService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  ordersPost$Response(params?: OrdersPost$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
+  ordersPost$Response(params?: OrdersPost$Params, context?: HttpContext): Observable<StrictHttpResponse<OrderSchema>> {
     return ordersPost(this.http, this.rootUrl, params, context);
   }
 
@@ -174,7 +192,9 @@ export class OrderService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  ordersPost(params?: OrdersPost$Params, context?: HttpContext): Observable<any> {
-    return this.ordersPost$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
+  ordersPost(params?: OrdersPost$Params, context?: HttpContext): Observable<OrderSchema> {
+    return this.ordersPost$Response(params, context).pipe(
+      map((r: StrictHttpResponse<OrderSchema>): OrderSchema => r.body),
+    );
   }
 }

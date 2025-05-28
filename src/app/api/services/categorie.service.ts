@@ -17,6 +17,13 @@ import { CategoriesIdGet$Params, categoriesIdGet } from '../fn/categorie/categor
 import { CategoriesIdPut$Params, categoriesIdPut } from '../fn/categorie/categories-id-put';
 import { CategoriesPost$Params, categoriesPost } from '../fn/categorie/categories-post';
 
+export interface CategorieSchema {
+  id: string;
+  name: string;
+  description: string;
+  createdBy?: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class CategorieService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
@@ -36,7 +43,10 @@ export class CategorieService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  categoriesIdGet$Response(params: CategoriesIdGet$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
+  categoriesIdGet$Response(
+    params: CategoriesIdGet$Params,
+    context?: HttpContext,
+  ): Observable<StrictHttpResponse<CategorieSchema>> {
     return categoriesIdGet(this.http, this.rootUrl, params, context);
   }
 
@@ -50,8 +60,10 @@ export class CategorieService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  categoriesIdGet(params: CategoriesIdGet$Params, context?: HttpContext): Observable<any> {
-    return this.categoriesIdGet$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
+  categoriesIdGet(params: CategoriesIdGet$Params, context?: HttpContext): Observable<CategorieSchema> {
+    return this.categoriesIdGet$Response(params, context).pipe(
+      map((r: StrictHttpResponse<CategorieSchema>): CategorieSchema => r.body),
+    );
   }
 
   /** Path part for operation `categoriesIdPut()` */
@@ -67,7 +79,10 @@ export class CategorieService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  categoriesIdPut$Response(params: CategoriesIdPut$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
+  categoriesIdPut$Response(
+    params: CategoriesIdPut$Params,
+    context?: HttpContext,
+  ): Observable<StrictHttpResponse<CategorieSchema>> {
     return categoriesIdPut(this.http, this.rootUrl, params, context);
   }
 
@@ -81,8 +96,10 @@ export class CategorieService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  categoriesIdPut(params: CategoriesIdPut$Params, context?: HttpContext): Observable<any> {
-    return this.categoriesIdPut$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
+  categoriesIdPut(params: CategoriesIdPut$Params, context?: HttpContext): Observable<CategorieSchema> {
+    return this.categoriesIdPut$Response(params, context).pipe(
+      map((r: StrictHttpResponse<CategorieSchema>): CategorieSchema => r.body),
+    );
   }
 
   /** Path part for operation `categoriesIdDelete()` */
@@ -101,7 +118,7 @@ export class CategorieService extends BaseService {
   categoriesIdDelete$Response(
     params: CategoriesIdDelete$Params,
     context?: HttpContext,
-  ): Observable<StrictHttpResponse<any>> {
+  ): Observable<StrictHttpResponse<void>> {
     return categoriesIdDelete(this.http, this.rootUrl, params, context);
   }
 
@@ -115,8 +132,8 @@ export class CategorieService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  categoriesIdDelete(params: CategoriesIdDelete$Params, context?: HttpContext): Observable<any> {
-    return this.categoriesIdDelete$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
+  categoriesIdDelete(params: CategoriesIdDelete$Params, context?: HttpContext): Observable<void> {
+    return this.categoriesIdDelete$Response(params, context).pipe(map((r: StrictHttpResponse<void>): void => r.body));
   }
 
   /** Path part for operation `categoriesGet()` */
@@ -132,7 +149,10 @@ export class CategorieService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  categoriesGet$Response(params?: CategoriesGet$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
+  categoriesGet$Response(
+    params?: CategoriesGet$Params,
+    context?: HttpContext,
+  ): Observable<StrictHttpResponse<CategorieSchema[]>> {
     return categoriesGet(this.http, this.rootUrl, params, context);
   }
 
@@ -146,8 +166,10 @@ export class CategorieService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  categoriesGet(params?: CategoriesGet$Params, context?: HttpContext): Observable<any> {
-    return this.categoriesGet$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
+  categoriesGet(params?: CategoriesGet$Params, context?: HttpContext): Observable<CategorieSchema[]> {
+    return this.categoriesGet$Response(params, context).pipe(
+      map((r: StrictHttpResponse<CategorieSchema[]>): CategorieSchema[] => r.body),
+    );
   }
 
   /** Path part for operation `categoriesPost()` */
@@ -163,7 +185,10 @@ export class CategorieService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  categoriesPost$Response(params?: CategoriesPost$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
+  categoriesPost$Response(
+    params?: CategoriesPost$Params,
+    context?: HttpContext,
+  ): Observable<StrictHttpResponse<CategorieSchema>> {
     return categoriesPost(this.http, this.rootUrl, params, context);
   }
 
@@ -177,7 +202,9 @@ export class CategorieService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  categoriesPost(params?: CategoriesPost$Params, context?: HttpContext): Observable<any> {
-    return this.categoriesPost$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
+  categoriesPost(params?: CategoriesPost$Params, context?: HttpContext): Observable<CategorieSchema> {
+    return this.categoriesPost$Response(params, context).pipe(
+      map((r: StrictHttpResponse<CategorieSchema>): CategorieSchema => r.body),
+    );
   }
 }

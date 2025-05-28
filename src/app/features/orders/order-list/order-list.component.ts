@@ -1,5 +1,5 @@
 import { OrderService } from '@/api/services';
-import { StrictHttpResponse } from '@/api/strict-http-response';
+import { OrderSchema } from '@/api/services/order.service';
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -30,14 +30,13 @@ import { OrderCreateDialogComponent } from '../order-create-dialog/order-create-
     MatIconModule,
     MatPaginatorModule,
     MatSortModule,
-    OrderCreateDialogComponent,
   ],
   templateUrl: './order-list.component.html',
   styleUrls: ['./order-list.component.scss'],
 })
 export class OrderListComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['orderNumber', 'createdAt', 'userEmail', 'status', 'totalAmount', 'actions'];
-  dataSource = new MatTableDataSource<any>([]);
+  dataSource = new MatTableDataSource<OrderSchema>([]);
   totalOrders = 10000;
   pageSize = 5;
   pageIndex = 0;
@@ -77,7 +76,7 @@ export class OrderListComponent implements OnInit, AfterViewInit {
         status: this.selectedStatus || undefined,
       })
       .pipe(
-        map((r: StrictHttpResponse<any>): any => {
+        map(r => {
           const countHeader = r.headers.get('odin-count');
           if (countHeader) {
             this.totalOrders = parseInt(countHeader, 10);
@@ -89,7 +88,7 @@ export class OrderListComponent implements OnInit, AfterViewInit {
         }),
       )
       .subscribe({
-        next: (data: any) => {
+        next: data => {
           this.dataSource.data = data;
         },
         error: error => {
@@ -115,7 +114,7 @@ export class OrderListComponent implements OnInit, AfterViewInit {
     this.getOrders();
   }
 
-  viewDetails(order: any): void {
+  viewDetails(order: OrderSchema): void {
     this.router.navigate(['/app/orders', order.id]);
   }
 

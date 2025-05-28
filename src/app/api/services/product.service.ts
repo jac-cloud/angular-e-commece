@@ -16,6 +16,19 @@ import { ProductsIdDelete$Params, productsIdDelete } from '../fn/product/product
 import { ProductsIdGet$Params, productsIdGet } from '../fn/product/products-id-get';
 import { ProductsIdPut$Params, productsIdPut } from '../fn/product/products-id-put';
 import { ProductsPost$Params, productsPost } from '../fn/product/products-post';
+import { CategorieSchema } from './categorie.service';
+
+export interface ProductSchema {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  categoryId: string;
+  stock: number;
+  imageUrl: string;
+  createdBy: string;
+  category?: CategorieSchema;
+}
 
 @Injectable({ providedIn: 'root' })
 export class ProductService extends BaseService {
@@ -36,7 +49,10 @@ export class ProductService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  productsIdGet$Response(params: ProductsIdGet$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
+  productsIdGet$Response(
+    params: ProductsIdGet$Params,
+    context?: HttpContext,
+  ): Observable<StrictHttpResponse<ProductSchema>> {
     return productsIdGet(this.http, this.rootUrl, params, context);
   }
 
@@ -50,8 +66,10 @@ export class ProductService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  productsIdGet(params: ProductsIdGet$Params, context?: HttpContext): Observable<any> {
-    return this.productsIdGet$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
+  productsIdGet(params: ProductsIdGet$Params, context?: HttpContext): Observable<ProductSchema> {
+    return this.productsIdGet$Response(params, context).pipe(
+      map((r: StrictHttpResponse<ProductSchema>): ProductSchema => r.body),
+    );
   }
 
   /** Path part for operation `productsIdPut()` */
@@ -67,7 +85,10 @@ export class ProductService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  productsIdPut$Response(params: ProductsIdPut$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
+  productsIdPut$Response(
+    params: ProductsIdPut$Params,
+    context?: HttpContext,
+  ): Observable<StrictHttpResponse<ProductSchema>> {
     return productsIdPut(this.http, this.rootUrl, params, context);
   }
 
@@ -81,8 +102,10 @@ export class ProductService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  productsIdPut(params: ProductsIdPut$Params, context?: HttpContext): Observable<any> {
-    return this.productsIdPut$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
+  productsIdPut(params: ProductsIdPut$Params, context?: HttpContext): Observable<ProductSchema> {
+    return this.productsIdPut$Response(params, context).pipe(
+      map((r: StrictHttpResponse<ProductSchema>): ProductSchema => r.body),
+    );
   }
 
   /** Path part for operation `productsIdDelete()` */
@@ -101,7 +124,7 @@ export class ProductService extends BaseService {
   productsIdDelete$Response(
     params: ProductsIdDelete$Params,
     context?: HttpContext,
-  ): Observable<StrictHttpResponse<any>> {
+  ): Observable<StrictHttpResponse<void>> {
     return productsIdDelete(this.http, this.rootUrl, params, context);
   }
 
@@ -115,8 +138,8 @@ export class ProductService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  productsIdDelete(params: ProductsIdDelete$Params, context?: HttpContext): Observable<any> {
-    return this.productsIdDelete$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
+  productsIdDelete(params: ProductsIdDelete$Params, context?: HttpContext): Observable<void> {
+    return this.productsIdDelete$Response(params, context).pipe(map((r: StrictHttpResponse<void>): void => r.body));
   }
 
   /** Path part for operation `productsGet()` */
@@ -132,7 +155,10 @@ export class ProductService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  productsGet$Response(params?: ProductsGet$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
+  productsGet$Response(
+    params?: ProductsGet$Params,
+    context?: HttpContext,
+  ): Observable<StrictHttpResponse<ProductSchema[]>> {
     return productsGet(this.http, this.rootUrl, params, context);
   }
 
@@ -146,8 +172,10 @@ export class ProductService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  productsGet(params?: ProductsGet$Params, context?: HttpContext): Observable<any> {
-    return this.productsGet$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
+  productsGet(params?: ProductsGet$Params, context?: HttpContext): Observable<ProductSchema[]> {
+    return this.productsGet$Response(params, context).pipe(
+      map((r: StrictHttpResponse<ProductSchema[]>): ProductSchema[] => r.body),
+    );
   }
 
   /** Path part for operation `productsPost()` */
@@ -163,7 +191,10 @@ export class ProductService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  productsPost$Response(params?: ProductsPost$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
+  productsPost$Response(
+    params?: ProductsPost$Params,
+    context?: HttpContext,
+  ): Observable<StrictHttpResponse<ProductSchema>> {
     return productsPost(this.http, this.rootUrl, params, context);
   }
 
@@ -177,7 +208,9 @@ export class ProductService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  productsPost(params?: ProductsPost$Params, context?: HttpContext): Observable<any> {
-    return this.productsPost$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
+  productsPost(params?: ProductsPost$Params, context?: HttpContext): Observable<ProductSchema> {
+    return this.productsPost$Response(params, context).pipe(
+      map((r: StrictHttpResponse<ProductSchema>): ProductSchema => r.body),
+    );
   }
 }

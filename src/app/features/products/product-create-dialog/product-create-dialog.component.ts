@@ -1,4 +1,5 @@
 import { CategorieService, ProductService } from '@/api/services';
+import { CategorieSchema } from '@/api/services/categorie.service';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -35,7 +36,7 @@ export class ProductCreateDialogComponent implements OnInit {
     imageUrl: '',
   };
 
-  categories: any[] = [];
+  categories: CategorieSchema[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<ProductCreateDialogComponent>,

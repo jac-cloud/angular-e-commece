@@ -1,4 +1,5 @@
 import { OrderService, ProductService } from '@/api/services';
+import { OrderSchema } from '@/api/services/order.service';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
@@ -18,7 +19,7 @@ export class DashboardComponent implements OnInit {
   totalSales = 0;
   totalOrders = 0;
   totalProducts = 0;
-  recentOrders: any[] = [];
+  recentOrders: OrderSchema[] = [];
 
   // Sales by day
   salesByDayLabels: string[] = [];
@@ -48,7 +49,7 @@ export class DashboardComponent implements OnInit {
     });
 
     // Fetch orders
-    this.orderService.ordersGet().subscribe((orders: any[]) => {
+    this.orderService.ordersGet().subscribe((orders) => {
       this.totalOrders = orders.length;
       this.totalSales = orders.reduce((sum, o) => sum + (o.totalAmount || 0), 0);
 
@@ -71,17 +72,17 @@ export class DashboardComponent implements OnInit {
       };
 
       // Sales by category (assumes `category` field)
-      const catMap: { [key: string]: number } = {};
-      orders.forEach(o => {
-        const cat = o.category || 'Unknown';
-        catMap[cat] = (catMap[cat] || 0) + (o.totalAmount || 0);
-      });
-      this.salesByCategoryLabels = Object.keys(catMap);
-      this.salesByCategoryData = this.salesByCategoryLabels.map(cat => catMap[cat]);
-      this.salesByCategoryChartData = {
-        labels: this.salesByCategoryLabels,
-        datasets: [{ data: this.salesByCategoryData }],
-      };
+      // const catMap: { [key: string]: number } = {};
+      // orders.forEach(o => {
+      //   const cat = o.category || 'Unknown';
+      //   catMap[cat] = (catMap[cat] || 0) + (o.totalAmount || 0);
+      // });
+      // this.salesByCategoryLabels = Object.keys(catMap);
+      // this.salesByCategoryData = this.salesByCategoryLabels.map(cat => catMap[cat]);
+      // this.salesByCategoryChartData = {
+      //   labels: this.salesByCategoryLabels,
+      //   datasets: [{ data: this.salesByCategoryData }],
+      // };
     });
   }
 }

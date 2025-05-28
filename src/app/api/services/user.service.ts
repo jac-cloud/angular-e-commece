@@ -21,6 +21,20 @@ import { UsersMeDelete$Params, usersMeDelete } from '../fn/user/users-me-delete'
 import { UsersMeGet$Params, usersMeGet } from '../fn/user/users-me-get';
 import { UsersPost$Params, usersPost } from '../fn/user/users-post';
 
+export interface UserSchema {
+  id: string;
+  email: string;
+  password?: string; // Optional because it's `select: false` in the schema
+  role: string;
+  isConfirmed: boolean;
+  name?: string; // Optional as it isn't set required: true in schema
+  isEnabled: boolean;
+  lastLogin?: Date;
+  preLastLogin?: Date;
+  isDeleted: boolean;
+  devices: unknown[];
+}
+
 @Injectable({ providedIn: 'root' })
 export class UserService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
@@ -40,7 +54,7 @@ export class UserService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  usersIdGet$Response(params: UsersIdGet$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
+  usersIdGet$Response(params: UsersIdGet$Params, context?: HttpContext): Observable<StrictHttpResponse<UserSchema>> {
     return usersIdGet(this.http, this.rootUrl, params, context);
   }
 
@@ -54,8 +68,10 @@ export class UserService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  usersIdGet(params: UsersIdGet$Params, context?: HttpContext): Observable<any> {
-    return this.usersIdGet$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
+  usersIdGet(params: UsersIdGet$Params, context?: HttpContext): Observable<UserSchema> {
+    return this.usersIdGet$Response(params, context).pipe(
+      map((r: StrictHttpResponse<UserSchema>): UserSchema => r.body),
+    );
   }
 
   /** Path part for operation `usersIdPut()` */
@@ -71,7 +87,7 @@ export class UserService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  usersIdPut$Response(params: UsersIdPut$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
+  usersIdPut$Response(params: UsersIdPut$Params, context?: HttpContext): Observable<StrictHttpResponse<UserSchema>> {
     return usersIdPut(this.http, this.rootUrl, params, context);
   }
 
@@ -85,8 +101,10 @@ export class UserService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  usersIdPut(params: UsersIdPut$Params, context?: HttpContext): Observable<any> {
-    return this.usersIdPut$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
+  usersIdPut(params: UsersIdPut$Params, context?: HttpContext): Observable<UserSchema> {
+    return this.usersIdPut$Response(params, context).pipe(
+      map((r: StrictHttpResponse<UserSchema>): UserSchema => r.body),
+    );
   }
 
   /** Path part for operation `usersIdDelete()` */
@@ -102,7 +120,7 @@ export class UserService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  usersIdDelete$Response(params: UsersIdDelete$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
+  usersIdDelete$Response(params: UsersIdDelete$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
     return usersIdDelete(this.http, this.rootUrl, params, context);
   }
 
@@ -116,8 +134,10 @@ export class UserService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  usersIdDelete(params: UsersIdDelete$Params, context?: HttpContext): Observable<any> {
-    return this.usersIdDelete$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
+  usersIdDelete(params: UsersIdDelete$Params, context?: HttpContext): Observable<void> {
+    return this.usersIdDelete$Response(params, context).pipe(
+      map((r: StrictHttpResponse<void>): void => r.body),
+    );
   }
 
   /** Path part for operation `usersGet()` */
@@ -133,7 +153,7 @@ export class UserService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  usersGet$Response(params?: UsersGet$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
+  usersGet$Response(params?: UsersGet$Params, context?: HttpContext): Observable<StrictHttpResponse<UserSchema[]>> {
     return usersGet(this.http, this.rootUrl, params, context);
   }
 
@@ -147,8 +167,10 @@ export class UserService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  usersGet(params?: UsersGet$Params, context?: HttpContext): Observable<any> {
-    return this.usersGet$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
+  usersGet(params?: UsersGet$Params, context?: HttpContext): Observable<UserSchema[]> {
+    return this.usersGet$Response(params, context).pipe(
+      map((r: StrictHttpResponse<UserSchema[]>): UserSchema[] => r.body),
+    );
   }
 
   /** Path part for operation `usersPost()` */
@@ -164,7 +186,7 @@ export class UserService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  usersPost$Response(params?: UsersPost$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
+  usersPost$Response(params?: UsersPost$Params, context?: HttpContext): Observable<StrictHttpResponse<UserSchema>> {
     return usersPost(this.http, this.rootUrl, params, context);
   }
 
@@ -178,8 +200,10 @@ export class UserService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  usersPost(params?: UsersPost$Params, context?: HttpContext): Observable<any> {
-    return this.usersPost$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
+  usersPost(params?: UsersPost$Params, context?: HttpContext): Observable<UserSchema> {
+    return this.usersPost$Response(params, context).pipe(
+      map((r: StrictHttpResponse<UserSchema>): UserSchema => r.body),
+    );
   }
 
   /** Path part for operation `usersMeGet()` */
@@ -195,7 +219,7 @@ export class UserService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  usersMeGet$Response(params?: UsersMeGet$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
+  usersMeGet$Response(params?: UsersMeGet$Params, context?: HttpContext): Observable<StrictHttpResponse<UserSchema>> {
     return usersMeGet(this.http, this.rootUrl, params, context);
   }
 
@@ -209,8 +233,10 @@ export class UserService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  usersMeGet(params?: UsersMeGet$Params, context?: HttpContext): Observable<any> {
-    return this.usersMeGet$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
+  usersMeGet(params?: UsersMeGet$Params, context?: HttpContext): Observable<UserSchema> {
+    return this.usersMeGet$Response(params, context).pipe(
+      map((r: StrictHttpResponse<UserSchema>): UserSchema => r.body),
+    );
   }
 
   /** Path part for operation `usersMeDelete()` */
@@ -226,7 +252,7 @@ export class UserService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  usersMeDelete$Response(params?: UsersMeDelete$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
+  usersMeDelete$Response(params?: UsersMeDelete$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
     return usersMeDelete(this.http, this.rootUrl, params, context);
   }
 
@@ -240,8 +266,10 @@ export class UserService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  usersMeDelete(params?: UsersMeDelete$Params, context?: HttpContext): Observable<any> {
-    return this.usersMeDelete$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
+  usersMeDelete(params?: UsersMeDelete$Params, context?: HttpContext): Observable<void> {
+    return this.usersMeDelete$Response(params, context).pipe(
+      map((r: StrictHttpResponse<void>): void => r.body),
+    );
   }
 
   /** Path part for operation `usersIdPasswordPut()` */
@@ -260,7 +288,7 @@ export class UserService extends BaseService {
   usersIdPasswordPut$Response(
     params: UsersIdPasswordPut$Params,
     context?: HttpContext,
-  ): Observable<StrictHttpResponse<any>> {
+  ): Observable<StrictHttpResponse<UserSchema>> {
     return usersIdPasswordPut(this.http, this.rootUrl, params, context);
   }
 
@@ -274,8 +302,10 @@ export class UserService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  usersIdPasswordPut(params: UsersIdPasswordPut$Params, context?: HttpContext): Observable<any> {
-    return this.usersIdPasswordPut$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
+  usersIdPasswordPut(params: UsersIdPasswordPut$Params, context?: HttpContext): Observable<UserSchema> {
+    return this.usersIdPasswordPut$Response(params, context).pipe(
+      map((r: StrictHttpResponse<UserSchema>): UserSchema => r.body),
+    );
   }
 
   /** Path part for operation `usersIdPasswordResetPut()` */
@@ -294,7 +324,7 @@ export class UserService extends BaseService {
   usersIdPasswordResetPut$Response(
     params: UsersIdPasswordResetPut$Params,
     context?: HttpContext,
-  ): Observable<StrictHttpResponse<any>> {
+  ): Observable<StrictHttpResponse<UserSchema>> {
     return usersIdPasswordResetPut(this.http, this.rootUrl, params, context);
   }
 
@@ -308,9 +338,9 @@ export class UserService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  usersIdPasswordResetPut(params: UsersIdPasswordResetPut$Params, context?: HttpContext): Observable<any> {
+  usersIdPasswordResetPut(params: UsersIdPasswordResetPut$Params, context?: HttpContext): Observable<UserSchema> {
     return this.usersIdPasswordResetPut$Response(params, context).pipe(
-      map((r: StrictHttpResponse<any>): any => r.body),
+      map((r: StrictHttpResponse<UserSchema>): UserSchema => r.body),
     );
   }
 }

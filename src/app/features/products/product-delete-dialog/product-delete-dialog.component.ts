@@ -1,4 +1,5 @@
 import { ProductService } from '@/api/services';
+import { ProductSchema } from '@/api/services/product.service';
 import { CommonModule } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -14,16 +15,16 @@ import {
 @Component({
   selector: 'app-product-delete-dialog',
   standalone: true,
-  imports: [CommonModule, MatButtonModule, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose],
+  imports: [CommonModule, MatButtonModule, MatDialogTitle, MatDialogContent, MatDialogActions],
   templateUrl: './product-delete-dialog.component.html',
   styleUrls: ['./product-delete-dialog.component.scss'],
 })
 export class ProductDeleteDialogComponent {
-  product: any;
+  product: ProductSchema;
 
   constructor(
     public dialogRef: MatDialogRef<ProductDeleteDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: { product: ProductSchema },
     private productService: ProductService,
   ) {
     this.product = data.product;
@@ -34,7 +35,7 @@ export class ProductDeleteDialogComponent {
   }
 
   onDelete(): void {
-    this.productService.productsIdDelete({ id: this.product._id }).subscribe({
+    this.productService.productsIdDelete({ id: this.product.id }).subscribe({
       next: () => this.dialogRef.close(true),
       error: () => this.dialogRef.close(false),
     });

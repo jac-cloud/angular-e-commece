@@ -1,4 +1,8 @@
 import { OrderItemService, OrderService, ProductService, UserService } from '@/api/services';
+import { OrderItemSchema } from '@/api/services/order-item.service';
+import { OrderSchema } from '@/api/services/order.service';
+import { ProductSchema } from '@/api/services/product.service';
+import { UserSchema } from '@/api/services/user.service';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -30,14 +34,14 @@ import { MatSelectModule } from '@angular/material/select';
   styleUrls: ['./order-create-dialog.component.scss'],
 })
 export class OrderCreateDialogComponent implements OnInit {
-  users: any[] = [];
-  filteredUsers: any[] = [];
+  users: UserSchema[] = [];
+  filteredUsers: UserSchema[] = [];
   userSearch = '';
   selectedUserId = '';
-  selectedUser: any = null;
-  statuses: string[] = ['pending', 'completed', 'canceled'];
+  selectedUser: UserSchema | null = null;
+  statuses: OrderSchema['status'][] = ['pending', 'completed', 'cancelled'];
   selectedStatus = 'pending';
-  products: any[] = [];
+  products: ProductSchema[] = [];
   items: Array<{ productId: string; quantity: number }> = [];
 
   constructor(
@@ -113,9 +117,9 @@ export class OrderCreateDialogComponent implements OnInit {
       console.error('User selection is required');
       return;
     }
-    const body: any = {
+    const body: Partial<OrderSchema> = {
       userId: this.selectedUserId,
-      status: this.selectedStatus,
+      status: this.selectedStatus as OrderSchema['status'],
       totalAmount: this.totalAmount,
     };
     this.orderService.ordersPost({ body }).subscribe({
@@ -134,7 +138,7 @@ export class OrderCreateDialogComponent implements OnInit {
           };
         });
 
-        const promises = orderItemsPayloads.map<Promise<any>>(
+        const promises = orderItemsPayloads.map<Promise<OrderItemSchema>>(
           orderItem =>
             new Promise((resolve, reject) => {
               this.orderItemService.orderitemsPost({ body: orderItem }).subscribe({

@@ -17,6 +17,14 @@ import { OrderitemsIdGet$Params, orderitemsIdGet } from '../fn/order-item/orderi
 import { OrderitemsIdPut$Params, orderitemsIdPut } from '../fn/order-item/orderitems-id-put';
 import { OrderitemsPost$Params, orderitemsPost } from '../fn/order-item/orderitems-post';
 
+export interface OrderItemSchema {
+  orderId: string;
+  productId: string;
+  quantity: number;
+  price: number;
+  createdBy?: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class OrderItemService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
@@ -36,7 +44,10 @@ export class OrderItemService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  orderitemsIdGet$Response(params: OrderitemsIdGet$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
+  orderitemsIdGet$Response(
+    params: OrderitemsIdGet$Params,
+    context?: HttpContext,
+  ): Observable<StrictHttpResponse<OrderItemSchema>> {
     return orderitemsIdGet(this.http, this.rootUrl, params, context);
   }
 
@@ -50,8 +61,10 @@ export class OrderItemService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  orderitemsIdGet(params: OrderitemsIdGet$Params, context?: HttpContext): Observable<any> {
-    return this.orderitemsIdGet$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
+  orderitemsIdGet(params: OrderitemsIdGet$Params, context?: HttpContext): Observable<OrderItemSchema> {
+    return this.orderitemsIdGet$Response(params, context).pipe(
+      map((r: StrictHttpResponse<OrderItemSchema>): OrderItemSchema => r.body),
+    );
   }
 
   /** Path part for operation `orderitemsIdPut()` */
@@ -67,7 +80,10 @@ export class OrderItemService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  orderitemsIdPut$Response(params: OrderitemsIdPut$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
+  orderitemsIdPut$Response(
+    params: OrderitemsIdPut$Params,
+    context?: HttpContext,
+  ): Observable<StrictHttpResponse<OrderItemSchema>> {
     return orderitemsIdPut(this.http, this.rootUrl, params, context);
   }
 
@@ -81,8 +97,10 @@ export class OrderItemService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  orderitemsIdPut(params: OrderitemsIdPut$Params, context?: HttpContext): Observable<any> {
-    return this.orderitemsIdPut$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
+  orderitemsIdPut(params: OrderitemsIdPut$Params, context?: HttpContext): Observable<OrderItemSchema> {
+    return this.orderitemsIdPut$Response(params, context).pipe(
+      map((r: StrictHttpResponse<OrderItemSchema>): OrderItemSchema => r.body),
+    );
   }
 
   /** Path part for operation `orderitemsIdDelete()` */
@@ -101,7 +119,7 @@ export class OrderItemService extends BaseService {
   orderitemsIdDelete$Response(
     params: OrderitemsIdDelete$Params,
     context?: HttpContext,
-  ): Observable<StrictHttpResponse<any>> {
+  ): Observable<StrictHttpResponse<void>> {
     return orderitemsIdDelete(this.http, this.rootUrl, params, context);
   }
 
@@ -115,8 +133,8 @@ export class OrderItemService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  orderitemsIdDelete(params: OrderitemsIdDelete$Params, context?: HttpContext): Observable<any> {
-    return this.orderitemsIdDelete$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
+  orderitemsIdDelete(params: OrderitemsIdDelete$Params, context?: HttpContext): Observable<void> {
+    return this.orderitemsIdDelete$Response(params, context).pipe(map((r: StrictHttpResponse<void>): void => r.body));
   }
 
   /** Path part for operation `orderitemsGet()` */
@@ -132,7 +150,10 @@ export class OrderItemService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  orderitemsGet$Response(params?: OrderitemsGet$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
+  orderitemsGet$Response(
+    params?: OrderitemsGet$Params,
+    context?: HttpContext,
+  ): Observable<StrictHttpResponse<OrderItemSchema[]>> {
     return orderitemsGet(this.http, this.rootUrl, params, context);
   }
 
@@ -146,8 +167,10 @@ export class OrderItemService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  orderitemsGet(params?: OrderitemsGet$Params, context?: HttpContext): Observable<any> {
-    return this.orderitemsGet$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
+  orderitemsGet(params?: OrderitemsGet$Params, context?: HttpContext): Observable<OrderItemSchema[]> {
+    return this.orderitemsGet$Response(params, context).pipe(
+      map((r: StrictHttpResponse<OrderItemSchema[]>): OrderItemSchema[] => r.body),
+    );
   }
 
   /** Path part for operation `orderitemsPost()` */
@@ -163,7 +186,10 @@ export class OrderItemService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  orderitemsPost$Response(params?: OrderitemsPost$Params, context?: HttpContext): Observable<StrictHttpResponse<any>> {
+  orderitemsPost$Response(
+    params?: OrderitemsPost$Params,
+    context?: HttpContext,
+  ): Observable<StrictHttpResponse<OrderItemSchema>> {
     return orderitemsPost(this.http, this.rootUrl, params, context);
   }
 
@@ -177,7 +203,9 @@ export class OrderItemService extends BaseService {
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  orderitemsPost(params?: OrderitemsPost$Params, context?: HttpContext): Observable<any> {
-    return this.orderitemsPost$Response(params, context).pipe(map((r: StrictHttpResponse<any>): any => r.body));
+  orderitemsPost(params?: OrderitemsPost$Params, context?: HttpContext): Observable<OrderItemSchema> {
+    return this.orderitemsPost$Response(params, context).pipe(
+      map((r: StrictHttpResponse<OrderItemSchema>): OrderItemSchema => r.body),
+    );
   }
 }

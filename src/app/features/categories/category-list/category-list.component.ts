@@ -13,6 +13,7 @@ import { CategoryCreateDialogComponent } from '../category-create-dialog/categor
 import { CategoryDeleteDialogComponent } from '../category-delete-dialog/category-delete-dialog.component';
 import { CategoryUpdateDialogComponent } from '../category-update-dialog/category-update-dialog.component';
 import { CommonModule } from '@angular/common';
+import { CategorieSchema } from '@/api/services/categorie.service';
 
 @Component({
   selector: 'app-category-list',
@@ -23,7 +24,7 @@ import { CommonModule } from '@angular/common';
 })
 export class CategoryListComponent implements OnInit {
   displayedColumns: string[] = ['name', 'description', 'actions'];
-  dataSource = new MatTableDataSource<any>([]);
+  dataSource = new MatTableDataSource<CategorieSchema>([]);
   totalCategories = 10000;
   pageSize = 5;
   pageIndex = 0;
@@ -57,7 +58,7 @@ export class CategoryListComponent implements OnInit {
         sort,
       })
       .pipe(
-        map((r: StrictHttpResponse<any>): any => {
+        map(r => {
           const countHeader = r.headers.get('odin-count');
           if (countHeader) {
             this.totalCategories = parseInt(countHeader, 10);
@@ -68,7 +69,7 @@ export class CategoryListComponent implements OnInit {
         }),
       )
       .subscribe({
-        next: (data: any) => {
+        next: (data) => {
           this.dataSource.data = data;
         },
         error: error => {
@@ -100,7 +101,7 @@ export class CategoryListComponent implements OnInit {
     });
   }
 
-  onEdit(category: any): void {
+  onEdit(category: CategorieSchema): void {
     const dialogRef = this.dialog.open(CategoryUpdateDialogComponent, {
       width: '500px',
       data: { category },
@@ -112,7 +113,7 @@ export class CategoryListComponent implements OnInit {
     });
   }
 
-  onDelete(category: any): void {
+  onDelete(category: CategorieSchema): void {
     const dialogRef = this.dialog.open(CategoryDeleteDialogComponent, {
       width: '400px',
       data: { category },

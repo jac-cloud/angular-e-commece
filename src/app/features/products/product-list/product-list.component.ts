@@ -1,5 +1,4 @@
 import { CategorieService, ProductService } from '@/api/services';
-import { StrictHttpResponse } from '@/api/strict-http-response';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -10,6 +9,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTableDataSource } from '@angular/material/table';
 import { map } from 'rxjs/operators';
 
+import { CategorieSchema } from '@/api/services/categorie.service';
+import { ProductSchema } from '@/api/services/product.service';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
@@ -34,8 +35,6 @@ import { ProductUpdateDialogComponent } from '../product-update-dialog/product-u
     MatTooltipModule,
     MatPaginatorModule,
     MatSortModule,
-    ProductDeleteDialogComponent,
-    ProductUpdateDialogComponent, // add update dialog
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
@@ -47,7 +46,7 @@ import { ProductUpdateDialogComponent } from '../product-update-dialog/product-u
 })
 export class ProductListComponent implements OnInit {
   displayedColumns: string[] = ['name', 'description', 'price', 'category', 'stock', 'imageUrl', 'actions'];
-  dataSource = new MatTableDataSource<any>([]);
+  dataSource = new MatTableDataSource<ProductSchema>([]);
   totalProducts = 10000;
   pageSize = 5;
   pageIndex = 0;
@@ -55,7 +54,7 @@ export class ProductListComponent implements OnInit {
   sortDirection: 'asc' | 'desc' = 'desc';
   searchName = '';
   selectedCategoryId = '';
-  categories: any[] = [];
+  categories: CategorieSchema[] = [];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -74,8 +73,8 @@ export class ProductListComponent implements OnInit {
   getCategories(): void {
     // Fetch all categories for the select dropdown
     this.categorieService.categoriesGet().subscribe({
-      next: (data: any) => (this.categories = data),
-      error: (err: any) => console.error('Failed to fetch categories', err),
+      next: data => (this.categories = data),
+      error: err => console.error('Failed to fetch categories', err),
     });
   }
 
@@ -87,7 +86,13 @@ export class ProductListComponent implements OnInit {
 
   getProducts(): void {
     const sort = this.sortActive ? `${this.sortDirection === 'desc' ? '-' : ''}${this.sortActive}` : undefined;
-    const params: any = {
+    const params: {
+      page: number;
+      limit: number;
+      sort?: string;
+      name?: string;
+      categoryId?: string;
+    } = {
       page: this.pageIndex + 1,
       limit: this.pageSize,
       sort,
@@ -97,7 +102,7 @@ export class ProductListComponent implements OnInit {
     this.productService
       .productsGet$Response(params)
       .pipe(
-        map((r: StrictHttpResponse<any>): any => {
+        map(r => {
           const countHeader = r.headers.get('odin-count');
           if (countHeader) {
             this.totalProducts = parseInt(countHeader, 10);
@@ -108,7 +113,7 @@ export class ProductListComponent implements OnInit {
         }),
       )
       .subscribe({
-        next: (data: any) => {
+        next: data => {
           this.dataSource.data = data;
         },
         error: error => {
@@ -165,7 +170,7 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  openDeleteDialog(product: any): void {
+  openDeleteDialog(product: ProductSchema): void {
     const dialogRef = this.dialog.open(ProductDeleteDialogComponent, {
       width: '400px',
       data: { product },
@@ -177,7 +182,7 @@ export class ProductListComponent implements OnInit {
     });
   }
 
-  openUpdateDialog(product: any): void {
+  openUpdateDialog(product: ProductSchema): void {
     const dialogRef = this.dialog.open(ProductUpdateDialogComponent, {
       width: '500px',
       data: { product },

@@ -1,5 +1,6 @@
 import { OrderService } from '@/api/services';
-import { OrderItemService } from '@/api/services/order-item.service';
+import { OrderItemSchema, OrderItemService } from '@/api/services/order-item.service';
+import { OrderSchema } from '@/api/services/order.service';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -25,9 +26,9 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
   styleUrls: ['./order-detail.component.scss'],
 })
 export class OrderDetailComponent implements OnInit {
-  order: any;
-  orderItems: any[] = [];
-  statuses: string[] = ['pending', 'completed', 'canceled'];
+  order: OrderSchema | undefined;
+  orderItems: OrderItemSchema[] = [];
+  statuses: OrderSchema['status'][] = ['pending', 'completed', 'cancelled'];
   selectedStatus = '';
 
   constructor(
