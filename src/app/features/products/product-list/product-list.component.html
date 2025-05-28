@@ -20,7 +20,7 @@
       <mat-label>Category</mat-label>
       <mat-select [(ngModel)]="selectedCategoryId" (selectionChange)="onCategoryChange($event.value)">
         <mat-option [value]="''">All</mat-option>
-        <mat-option *ngFor="let cat of categories" [value]="cat._id">{{ cat.name }}</mat-option>
+        <mat-option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</mat-option>
       </mat-select>
       <button *ngIf="selectedCategoryId" matSuffix mat-icon-button aria-label="Clear" (click)="clearCategory()">
         <mat-icon>close</mat-icon>
