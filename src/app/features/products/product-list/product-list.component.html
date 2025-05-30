@@ -33,7 +33,13 @@
     <span *ngIf="searchName">The name must match exactly.</span>
   </div>
 
-  <table *ngIf="dataSource.data.length > 0" mat-table [dataSource]="dataSource" class="mat-table" matSort>
+  <table
+    [style.display]="dataSource.data.length > 0 ? '' : 'none'"
+    mat-table
+    [dataSource]="dataSource"
+    class="mat-table"
+    matSort
+  >
     <!-- Name Column -->
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
@@ -90,7 +96,7 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
   <mat-paginator
-    *ngIf="dataSource.data.length > 0"
+    [style.display]="dataSource.data.length > 0 ? '' : 'none'"
     [length]="totalProducts"
     [pageSize]="pageSize"
     [pageIndex]="pageIndex"

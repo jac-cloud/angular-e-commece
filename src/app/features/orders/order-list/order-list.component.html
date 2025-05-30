@@ -13,7 +13,7 @@
     </mat-form-field>
     <div *ngIf="dataSource.data.length === 0" class="no-results">No orders found.</div>
     <table
-      *ngIf="dataSource.data.length > 0"
+      [style.display]="dataSource.data.length > 0 ? '' : 'none'"
       mat-table
       [dataSource]="dataSource"
       class="mat-table mat-elevation-z8"
@@ -63,12 +63,12 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
     <mat-paginator
-      *ngIf="dataSource.data.length > 0"
       [length]="totalOrders"
       [pageSize]="pageSize"
       [pageIndex]="pageIndex"
       [pageSizeOptions]="[5, 10, 20, 50]"
       showFirstLastButtons
+      [style.display]="dataSource.data.length > 0 ? '' : 'none'"
     ></mat-paginator>
   </div>
 </div>
